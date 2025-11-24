@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <title>Nosso Diário Digital 💌</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonte Poppins -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet"
+    />
+
+    <style>
+        body {
+            font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont,
+                'Segoe UI', sans-serif;
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(12px);
+            filter: blur(4px);
+            transition: all 0.45s ease;
+        }
+        .fade-up.show {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .card-hover {
+            transition: transform 150ms ease, box-shadow 150ms ease,
+                        border-color 150ms ease, background 150ms ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 9999px;
+            filter: blur(52px);
+            opacity: 0.5;
+            animation: float 12s ease-in-out infinite alternate;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-30px); }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100">
+
+    <!-- Fundo com luzes -->
+    <div class="fixed inset-0 pointer-events-none -z-0">
+        <div class="orb w-72 h-72 bg-pink-500/40 top-10 left-8"></div>
+        <div class="orb w-80 h-80 bg-purple-500/40 bottom-4 right-10"></div>
+        <div class="orb w-64 h-64 bg-sky-500/30 top-1/2 left-1/3"></div>
+    </div>
+
+    <main class="relative z-10 max-w-6xl mx-auto px-4 py-8 md:py-10">
+        <!-- Topo -->
+        <header class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div class="fade-up">
+                <a href="../index.html"
+                   class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-700/70 text-[11px] text-slate-300 hover:border-pink-400/70 mb-3">
+                    ← Voltar para os projetos
+                </a>
+
+                <h1 class="text-2xl md:text-3xl font-bold text-pink-300 mb-1">
+                    Nosso Diário Digital 📖
+                </h1>
+                <p class="text-xs md:text-sm text-slate-300 max-w-xl">
+                    Aqui ficam guardadas as nossas lembranças: textos, sentimentos,
+                    datas especiais e tudo aquilo que a gente viveu e ainda vai viver.
+                </p>
+            </div>
+
+            <!-- Stats do diário -->
+            <div class="fade-up flex flex-col md:items-end text-xs gap-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/80 border border-slate-700/70">
+                    <span class="text-pink-300 text-lg">❤️</span>
+                    <div>
+                        <p class="text-[11px] text-slate-400">Entradas registradas</p>
+                        <p id="stats-count" class="text-sm font-semibold text-slate-100">0 memórias</p>
+                    </div>
+                </div>
+
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/80 border border-slate-700/70">
+                    <span class="text-sky-300 text-lg">🗓</span>
+                    <div>
+                        <p class="text-[11px] text-slate-400">Última lembrança</p>
+                        <p id="stats-last" class="text-sm font-semibold text-slate-100">—</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Conteúdo principal -->
+        <section class="grid gap-6 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1.1fr)]">
+            <!-- Coluna esquerda: lista de memórias -->
+            <div class="fade-up card-hover bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4 md:p-5">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+                    <div>
+                        <h2 class="text-sm font-semibold mb-1">Memórias salvas</h2>
+                        <p class="text-[11px] text-slate-400">
+                            Clique em qualquer cartão para editar. Use a busca para achar um momento específico.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-2 md:items-center">
+                        <div class="relative">
+                            <input
+                                id="search-input"
+                                type="text"
+                                placeholder="Buscar por texto, tag ou sentimento..."
+                                class="w-full md:w-64 bg-slate-900/70 border border-slate-700/70 rounded-full px-3 py-1.5 text-[11px] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-pink-400/70"
+                            />
+                        </div>
+
+                        <select
+                            id="filter-mood"
+                            class="bg-slate-900/70 border border-slate-700/70 rounded-full px-3 py-1.5 text-[11px] text-slate-100 focus:outline-none focus:ring-1 focus:ring-pink-400/70"
+                        >
+                            <option value="">Todos os sentimentos</option>
+                            <option value="feliz">😊 Feliz</option>
+                            <option value="grata">🙏 Grata</option>
+                            <option value="apaixonada">💘 Apaixonada</option>
+                            <option value="com saudade">🥹 Com saudade</option>
+                            <option value="calma">🫧 Calma</option>
+                            <option value="ansiosa">😵 Ansiosa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Lista de entradas -->
+                <div id="entries-list" class="space-y-3 max-h-[480px] overflow-y-auto pr-1">
+                    <!-- cards via JS -->
+                </div>
+            </div>
+
+            <!-- Coluna direita: formulário -->
+            <div class="fade-up card-hover bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4 md:p-5">
+                <h2 class="text-sm font-semibold mb-1">Nova lembrança / Editar</h2>
+                <p class="text-[11px] text-slate-400 mb-4">
+                    Preencha os campos e salve. Tudo fica guardado apenas no seu navegador (localStorage).
+                </p>
+
+                <form id="entry-form" class="space-y-3">
+                    <!-- hidden id para modo edição -->
+                    <input type="hidden" name="id" />
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] text-slate-300 mb-1">
+                                Data
+                            </label>
+                            <input
+                                type="date"
+                                name="date"
+                                class="w-full bg-slate-900/70 border border-slate-700/70 rounded-xl px-3 py-1.5 text-[11px] text-slate-100 focus:outline-none focus:ring-1 focus:ring-pink-400/70"
+                            />
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] text-slate-300 mb-1">
+                                Tag / categoria
+                            </label>
+                            <input
+                                type="text"
+                                name="tag"
+                                placeholder="Ex: Viagem, Aniversário, Filme, Desabafo..."
+                                class="w-full bg-slate-900/70 border border-slate-700/70 rounded-xl px-3 py-1.5 text-[11px] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-pink-400/70"
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] text-slate-300 mb-1">
+                            Título
+                        </label>
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder="Um título curtinho que resuma o momento..."
+                            class="w-full bg-slate-900/70 border border-slate-700/70 rounded-xl px-3 py-1.5 text-[11px] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-pink-400/70"
+                        />
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] text-slate-300 mb-1">
+                                Sentimento
+                            </label>
+                            <select
+                                name="mood"
+                                class="w-full bg-slate-900/70 border border-slate-700/70 rounded-xl px-3 py-1.5 text-[11px] text-slate-100 focus:outline-none focus:ring-1 focus:ring-pink-400/70"
+                            >
+                                <option value="">Selecione...</option>
+                                <option value="feliz">😊 Feliz</option>
+                                <option value="grata">🙏 Grata</option>
+                                <option value="apaixonada">💘 Apaixonada</option>
+                                <option value="com saudade">🥹 Com saudade</option>
+                                <option value="calma">🫧 Calma</option>
+                                <option value="ansiosa">😵 Ansiosa</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] text-slate-300 mb-1">
+                                Destaque (opcional)
+                            </label>
+                            <select
+                                name="highlight"
+                                class="w-full bg-slate-900/70 border border-slate-700/70 rounded-xl px-3 py-1.5 text-[11px] text-slate-100 focus:outline-none focus:ring-1 focus:ring-pink-400/70"
+                            >
+                                <option value="">Normal</option>
+                                <option value="gold">⭐ Momento muito especial</option>
+                                <option value="calm">🌙 Noite tranquila</option>
+                                <option value="chaos">⚡ Dia intenso</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] text-slate-300 mb-1">
+                            Texto da lembrança
+                        </label>
+                        <textarea
+                            name="text"
+                            rows="5"
+                            placeholder="Escreve aqui como foi o dia, o que você sentiu, o que marcou..."
+                            class="w-full bg-slate-900/70 border border-slate-700/70 rounded-xl px-3 py-2 text-[11px] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-pink-400/70"
+                        ></textarea>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 items-center justify-between pt-1">
+                        <p class="text-[10px] text-slate-500">
+                            Dica: você pode sempre voltar aqui e editar qualquer memória.
+                        </p>
+
+                        <div class="flex gap-2">
+                            <button
+                                type="button"
+                                id="btn-clear"
+                                class="px-3 py-1.5 rounded-full border border-slate-600/80 text-[11px] text-slate-200 hover:border-slate-400/80"
+                            >
+                                Limpar formulário
+                            </button>
+
+                            <button
+                                type="button"
+                                id="btn-delete"
+                                class="hidden px-3 py-1.5 rounded-full border border-red-500/80 text-[11px] text-red-200 hover:bg-red-500/10"
+                            >
+                                Excluir lembrança
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="px-4 py-1.5 rounded-full bg-pink-500 hover:bg-pink-400 text-[11px] text-white font-semibold"
+                            >
+                                Salvar memória
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <footer class="mt-10 text-center text-[11px] text-slate-500">
+            Diário salvo apenas neste navegador. Se apagar os dados do navegador, as memórias daqui somem (as reais continuam). 💗
+        </footer>
+    </main>
+
+    <!-- Script do diário -->
+    <script src="./diary.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <title>IA Só Pra Você 🤖💖</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- SEU CSS SEPARADO -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100">
+
+    <!-- ORBS DE FUNDO -->
+    <div class="fixed inset-0 -z-10 pointer-events-none">
+        <div class="orb w-72 h-72 bg-pink-500/40 top-10 left-16"></div>
+        <div class="orb w-64 h-64 bg-purple-500/40 bottom-10 right-20"></div>
+        <div class="orb w-56 h-56 bg-indigo-500/30 top-1/2 right-1/3"></div>
+    </div>
+
+    <main class="max-w-3xl mx-auto px-4 py-14">
+
+        <!-- Cabeçalho -->
+        <div class="text-center fade">
+            <p class="text-xs mb-2 text-pink-300/80">💕 Projeto 5/5</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-pink-400 mb-3">IA Só Pra Você</h1>
+            <p class="text-slate-300 max-w-lg mx-auto">
+                Uma IA criada para conversar com você do jeitinho que a gente fala,  
+                cheia de memórias, piadas internas e nossos momentos.  
+                Pode perguntar qualquer coisa. 💗
+            </p>
+        </div>
+
+        <!-- Avatar -->
+        <div class="flex items-center gap-3 mt-6 fade">
+            <img src="https://i.imgur.com/GxV9z7a.gif" 
+                 class="avatar">
+            <span class="text-xs text-pink-300">Estou te ouvindo, amor… 💗</span>
+        </div>
+
+        <!-- Caixa do chat -->
+        <div class="card-glass shine rounded-2xl p-5 mt-6 fade">
+            <div id="chat" class="chat-box"></div>
+
+            <!-- Digitando -->
+            <div id="typing" class="typing hidden">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+
+            <div class="flex gap-2 mt-3">
+                <input 
+                    id="input" 
+                    type="text"
+                    placeholder="Digite para mim... ❤️"
+                    class="input-box"
+                >
+                <button id="sendBtn" class="send-btn">
+                    Enviar
+                </button>
+            </div>
+        </div>
+
+        <footer class="mt-10 text-center text-xs text-slate-400 fade">
+            Feito com carinho demais — sua IA que te ama. 🤍🤖
+        </footer>
+    </main>
+
+    <!-- JS SEPARADO -->
+    <script src="main.js"></script>
+</body>
+</html>

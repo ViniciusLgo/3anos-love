@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Timeline do Nosso Amor 💞</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Fonte Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- CORAÇÕES FLUTUANDO (fundão) -->
+    <div id="hearts-container"></div>
+
+    <!-- BOTÃO DA MÚSICA -->
+    <button id="music-btn" title="Tocar/pausar música">🎵</button>
+
+    <!-- CABEÇALHO -->
+    <header>
+        <h1 id="titulo" class="typewriter">Timeline do Nosso Amor 💖</h1>
+        <p>Cada momento nosso reunido em uma história inesquecível.</p>
+
+        <!-- FILTROS (Fase 4) -->
+        <div class="filters">
+            <div class="filter-group">
+                <label for="filter-ano">Ano</label>
+                <select id="filter-ano">
+                    <option value="">Todos</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filter-categoria">Categoria</label>
+                <select id="filter-categoria">
+                    <option value="">Todas</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filter-emocao">Emoção</label>
+                <select id="filter-emocao">
+                    <option value="">Todas</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTAINER DA TIMELINE -->
+    <div class="timeline-container">
+
+        <!-- Linha central -->
+        <div class="timeline-line">
+            <div class="timeline-progress"></div>
+        </div>
+
+        <!-- Cards vão ser gerados aqui -->
+        <div id="timeline"></div>
+    </div>
+
+    <!-- CARTA SECRETA (Fase 5) -->
+    <section class="secret-section">
+        <button id="secret-btn">💌 Ver carta secreta</button>
+        <div id="secret-card" class="secret-card">
+            <p id="secret-text">
+                Há 3 anos, você virou meu bug favorito e minha solução preferida ao mesmo tempo.
+                Obrigado por cada risada, cada madrugada, cada conversa aleatória e cada sonho que a gente construiu junto.
+                Se esse projeto tivesse README, a primeira linha seria: “Feito por mim, mas totalmente inspirado em você.” 💖
+            </p>
+        </div>
+    </section>
+
+    <!-- MODAL DE FOTO (Fase 3) -->
+    <div id="modal-backdrop" class="modal-backdrop">
+        <div class="modal-content">
+            <button id="modal-close" class="modal-close">✕</button>
+            <img id="modal-img" src="" alt="">
+            <p id="modal-caption"></p>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script src="script.js"></script>
+</body>
+
+</html>

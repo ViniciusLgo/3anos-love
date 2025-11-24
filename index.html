@@ -3,237 +3,226 @@
 <head>
     <meta charset="utf-8" />
     <title>3 Anos de Nós 💖</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Tailwind CSS via CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Fonte opcional (Google Fonts) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
-        rel="stylesheet"
-    >
+    <!-- Fonte Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
         body {
-            font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont,
-                'Segoe UI', sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
-        /* Efeito de brilho nos cards ao passar o mouse */
-        .card-hover {
-            transition: transform 150ms ease, box-shadow 150ms ease,
-                        border-color 150ms ease, background-color 150ms ease;
+        /* ================================
+           1. Animação fade-up
+        ================================= */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(18px) scale(0.98);
+            filter: blur(4px);
+            transition: all 0.7s ease;
+        }
+        .fade-up.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
         }
 
-        .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+        /* ================================
+           2. Shine diagonal
+        ================================= */
+        .shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .shine::after {
+            content: "";
+            position: absolute;
+            top: -150%;
+            left: -150%;
+            width: 300%;
+            height: 300%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.25),
+                transparent
+            );
+            transform: rotate(25deg);
+            transition: 0.7s;
+            opacity: 0;
+        }
+        .shine:hover::after {
+            top: -30%;
+            left: -30%;
+            opacity: 1;
+        }
+
+        /* ================================
+           3. Botão da música
+        ================================= */
+        #music-btn {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 30;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(8px);
+            padding: 10px 13px;
+            font-size: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #fff;
+            transition: 0.2s;
+        }
+        #music-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Transição entre páginas */
+        #page-fade {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+            z-index: 50;
+        }
+        #page-fade.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Partículas do fundo */
+        .orb {
+            position: absolute;
+            border-radius: 100%;
+            filter: blur(50px);
+            opacity: 0.55;
+            animation: float 12s infinite ease-in-out alternate;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-40px); }
         }
     </style>
 </head>
+
 <body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100">
 
-    <!-- Fundo com brilho suave -->
-    <div class="pointer-events-none fixed inset-0 opacity-40">
-        <div class="absolute -top-32 -right-10 w-72 h-72 bg-pink-500/40 blur-3xl rounded-full"></div>
-        <div class="absolute bottom-0 left-10 w-80 h-80 bg-purple-500/40 blur-3xl rounded-full"></div>
+    <!-- Fundo com partículas -->
+    <div class="fixed inset-0 pointer-events-none -z-0">
+        <div class="orb w-72 h-72 bg-pink-500/40 top-10 left-10"></div>
+        <div class="orb w-80 h-80 bg-purple-500/40 bottom-10 right-16"></div>
+        <div class="orb w-64 h-64 bg-indigo-500/30 top-1/2 left-1/3"></div>
     </div>
 
-    <main class="relative z-10 max-w-5xl mx-auto px-4 py-10 md:py-14">
+    <!-- Fade -->
+    <div id="page-fade"></div>
+
+    <!-- Botão Música -->
+    <button id="music-btn">🎵</button>
+
+    <main class="relative z-10 max-w-5xl mx-auto px-4 py-12">
+        
         <!-- Cabeçalho -->
-        <header class="mb-10 md:mb-14 text-center md:text-left">
-            <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-pink-500/10 border border-pink-400/40 text-xs md:text-sm mb-4">
+        <header class="mb-12 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-pink-500/10 border border-pink-400/40 text-xs mb-5 fade-up">
                 <span>✨ Projeto especial de 3 anos</span>
             </div>
 
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-3">
-                Nosso universo em <span class="text-pink-400">6 projetos</span> 💘
-            </h1>
+            <!-- Texto animado -->
+            <h1 id="type-title" class="text-3xl md:text-5xl font-bold mb-3 text-center text-pink-300"></h1>
 
-            <p class="text-slate-300 max-w-2xl mx-auto md:mx-0 text-sm md:text-base">
-                Cada card aqui é um pedacinho da nossa história em forma de código.
-                Entra em qualquer projeto, explora com calma e se apaixona de novo.
+            <p id="contador" class="text-slate-300 text-sm md:text-base fade-up max-w-md mx-auto mt-4">
+                <span id="contador"></span>
+
             </p>
+
+            <p class="text-slate-400 text-xs mt-2">Início: 12/12/2022</p>
         </header>
 
-        <!-- Grid de cards -->
-        <section class="grid gap-5 md:gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <!-- Grid dos 5 projetos -->
+        <section id="cards" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
 
-            <!-- 1. Timeline do Amor -->
-            <a href="./timeline/" class="card-hover bg-slate-900/70 border border-slate-700/60 rounded-2xl p-5 flex flex-col justify-between hover:border-pink-400/80 hover:bg-slate-900/90">
-                <div>
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-2xl">📅</span>
-                        <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-300">
-                            Projeto 1/6
-                        </span>
-                    </div>
-                    <h2 class="text-lg font-semibold mb-1">
-                        Timeline do Amor
-                    </h2>
-                    <p class="text-xs text-slate-300">
-                        Nossos momentos mais importantes, em ordem, como uma linha do tempo:
-                        primeiro encontro, viagens, loucurinhas e conquistas. Tudo guardado aqui.
-                    </p>
+            <!-- PROJETO 1/5 -->
+            <a href="./timeline/" class="shine fade-up bg-slate-900/70 border border-slate-700/60 rounded-2xl p-5 hover:border-pink-400/80">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-2xl">📅</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800/80">Projeto 1/5</span>
                 </div>
-
-                <div class="mt-4 flex items-center justify-between text-xs text-slate-300">
-                    <span>Ver nossa história</span>
-                    <span class="inline-flex items-center gap-1">
-                        Entrar
-                        <span>➜</span>
-                    </span>
+                <h2 class="text-lg font-semibold mb-1">Timeline do Amor</h2>
+                <p class="text-xs text-slate-300">Nossa história completa: encontros, viagens e momentos eternos.</p>
+                <div class="mt-4 flex justify-between text-xs text-slate-300">
+                    <span>Ver história</span><span>➜</span>
                 </div>
             </a>
 
-            <!-- 2. Joguinho dos 3 Anos -->
-            <a href="./game/" class="card-hover bg-slate-900/70 border border-slate-700/60 rounded-2xl p-5 flex flex-col justify-between hover:border-emerald-400/80 hover:bg-slate-900/90">
-                <div>
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-2xl">🎮</span>
-                        <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-300">
-                            Projeto 2/6
-                        </span>
-                    </div>
-                    <h2 class="text-lg font-semibold mb-1">
-                        Jogo dos 3 Anos
-                    </h2>
-                    <p class="text-xs text-slate-300">
-                        Um joguinho simples onde o objetivo é colecionar corações, lembrar
-                        momentos e, no final, ganhar o prêmio máximo: meu coração de novo. 💚
-                    </p>
+            <!-- PROJETO 2/5 -->
+            <a href="./game/" class="shine fade-up bg-slate-900/70 border border-slate-700/60 rounded-2xl p-5 hover:border-emerald-400/80">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-2xl">🎮</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800/80">Projeto 2/5</span>
                 </div>
-
-                <div class="mt-4 flex items-center justify-between text-xs text-slate-300">
-                    <span>Jogar um pouquinho</span>
-                    <span class="inline-flex items-center gap-1">
-                        Entrar
-                        <span>➜</span>
-                    </span>
+                <h2 class="text-lg font-semibold mb-1">Jogo dos 3 Anos</h2>
+                <p class="text-xs text-slate-300">Colecione corações, libere memórias e me conquiste de novo.</p>
+                <div class="mt-4 flex justify-between text-xs text-slate-300">
+                    <span>Jogar</span><span>➜</span>
                 </div>
             </a>
 
-            <!-- 3. Diário Web de Lembranças -->
-            <a href="./app-web/" class="card-hover bg-slate-900/70 border border-slate-700/60 rounded-2xl p-5 flex flex-col justify-between hover:border-sky-400/80 hover:bg-slate-900/90">
-                <div>
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-2xl">📱</span>
-                        <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-300">
-                            Projeto 3/6
-                        </span>
-                    </div>
-                    <h2 class="text-lg font-semibold mb-1">
-                        Nosso Diário Digital
-                    </h2>
-                    <p class="text-xs text-slate-300">
-                        Um cantinho com fotos, frases e pequenas notas sobre nós. Tipo um diário
-                        que sempre cabe no bolso, em qualquer tela.
-                    </p>
+            <!-- PROJETO 3/5 -->
+            <a href="./app-web/" class="shine fade-up bg-slate-900/70 border border-slate-700/60 rounded-2xl p-5 hover:border-sky-400/80">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-2xl">📱</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800/80">Projeto 3/5</span>
                 </div>
-
-                <div class="mt-4 flex items-center justify-between text-xs text-slate-300">
-                    <span>Ver lembranças</span>
-                    <span class="inline-flex items-center gap-1">
-                        Entrar
-                        <span>➜</span>
-                    </span>
+                <h2 class="text-lg font-semibold mb-1">Nosso Diário Digital</h2>
+                <p class="text-xs text-slate-300">Fotos, momentos, frases e sentimentos guardados só pra nós.</p>
+                <div class="mt-4 flex justify-between text-xs text-slate-300">
+                    <span>Entrar</span><span>➜</span>
                 </div>
             </a>
 
-            <!-- 4. Enigma & QR Secreto -->
-            <a href="./enigma/" class="card-hover bg-slate-900/70 border border-slate-700/60 rounded-2xl p-5 flex flex-col justify-between hover:border-amber-300/80 hover:bg-slate-900/90">
-                <div>
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-2xl">🕵️‍♀️</span>
-                        <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-300">
-                            Projeto 4/6
-                        </span>
-                    </div>
-                    <h2 class="text-lg font-semibold mb-1">
-                        Enigma do Amor
-                    </h2>
-                    <p class="text-xs text-slate-300">
-                        Um pequeno desafio com pistas, perguntas e segredos. Se você resolver,
-                        desbloqueia uma mensagem especial só sua. 🤫
-                    </p>
+            <!-- PROJETO 4/5 -->
+            <a href="./enigma-do-amor/index.html" class="shine fade-up bg-slate-900/70 border border-slate-700/60 rounded-2xl p-5 hover:border-amber-300/80">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-2xl">🕵️‍♀️</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800/80">Projeto 4/5</span>
                 </div>
-
-                <div class="mt-4 flex items-center justify-between text-xs text-slate-300">
-                    <span>Resolver o mistério</span>
-                    <span class="inline-flex items-center gap-1">
-                        Entrar
-                        <span>➜</span>
-                    </span>
+                <h2 class="text-lg font-semibold mb-1">Enigma do Amor</h2>
+                <p class="text-xs text-slate-300">Descubra pistas, avance fases e desbloqueie a mensagem final.</p>
+                <div class="mt-4 flex justify-between text-xs text-slate-300">
+                    <span>Investigar</span><span>➜</span>
                 </div>
             </a>
 
-            <!-- 5. Git do Amor -->
-            <a href="./git-love/" class="card-hover bg-slate-900/70 border border-slate-700/60 rounded-2xl p-5 flex flex-col justify-between hover:border-violet-400/80 hover:bg-slate-900/90">
-                <div>
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-2xl">💾</span>
-                        <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-300">
-                            Projeto 5/6
-                        </span>
-                    </div>
-                    <h2 class="text-lg font-semibold mb-1">
-                        Git do Nosso Amor
-                    </h2>
-                    <p class="text-xs text-slate-300">
-                        Um “repositório” da nossa história, com commits de momentos importantes,
-                        branch de planos futuros e zero vontade de dar rollback.
-                    </p>
+            <!-- PROJETO 5/5 (ÚLTIMO) -->
+            <a href="./ai-simulada/" class="shine fade-up bg-slate-900/70 border border-slate-700/60 rounded-2xl p-5 hover:border-indigo-300/80">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-2xl">🤖</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800/80">Projeto 5/5</span>
                 </div>
-
-                <div class="mt-4 flex items-center justify-between text-xs text-slate-300">
-                    <span>Ver commits do coração</span>
-                    <span class="inline-flex items-center gap-1">
-                        Entrar
-                        <span>➜</span>
-                    </span>
-                </div>
-            </a>
-
-            <!-- 6. IA Personalizada (Simulada) -->
-            <a href="./ai-simulada/" class="card-hover bg-slate-900/70 border border-slate-700/60 rounded-2xl p-5 flex flex-col justify-between hover:border-teal-300/80 hover:bg-slate-900/90">
-                <div>
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-2xl">🤖</span>
-                        <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-300">
-                            Projeto 6/6
-                        </span>
-                    </div>
-                    <h2 class="text-lg font-semibold mb-1">
-                        IA Só Pra Você
-                    </h2>
-                    <p class="text-xs text-slate-300">
-                        Um “chatzinho” treinado só com as nossas coisas, com respostas
-                        preparadas pra te lembrar todos os dias o quanto você é importante.
-                    </p>
-                </div>
-
-                <div class="mt-4 flex items-center justify-between text-xs text-slate-300">
-                    <span>Conversar com a IA</span>
-                    <span class="inline-flex items-center gap-1">
-                        Entrar
-                        <span>➜</span>
-                    </span>
+                <h2 class="text-lg font-semibold mb-1">IA Só Pra Você</h2>
+                <p class="text-xs text-slate-300">Uma IA que fala igual a gente, com nossas memórias.</p>
+                <div class="mt-4 flex justify-between text-xs text-slate-300">
+                    <span>Conversar</span><span>➜</span>
                 </div>
             </a>
 
         </section>
 
-        <!-- Rodapé -->
-        <footer class="mt-10 md:mt-14 text-center text-xs text-slate-400">
-            Feito com <span class="text-pink-400">♥</span> em HTML, Tailwind e muita paciência
-            — por você, sempre.
+        <footer class="mt-14 text-center text-xs text-slate-400">
+            Feito com <span class="text-pink-400">♥</span> usando Tailwind, café e amor demais — por você.
         </footer>
     </main>
 
-    <!-- Script principal (se quiser usar depois) -->
     <script src="./main.js"></script>
 </body>
 </html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <title>Desafio 2 💘 Complete a frase</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="css/style.css">
+    <audio id="bg-music" src="audio/musica.mp3" autoplay loop></audio>
+
+    <script>
+        // Controle dos passos
+        function go(step) {
+            document.querySelectorAll(".step").forEach(s => s.style.display = "none");
+            document.getElementById(step).style.display = "block";
+        }
+    </script>
+</head>
+
+<body onload="go('s1')">
+
+<div id="hearts-container"></div>
+<div class="music-toggle" onclick="toggleMusic()">🎵</div>
+
+<header class="header fade-in">
+    <h1 class="typewriter">Desafio 2 — Complete a frase</h1>
+</header>
+
+<!-- ===========================================================
+     PASSO 1 — PRIMEIRA PALAVRA
+=========================================================== -->
+<div id="s1" class="center-box step fade-in">
+
+    <p class="frase">
+        "Você é o meu <b>______</b>"
+    </p>
+
+    <a href="javascript:go('s2')" class="card-option">meu lar</a>
+    <a href="erro.html" class="card-option wrong">minha força</a>
+    <a href="erro.html" class="card-option wrong">minha alegria</a>
+
+</div>
+
+<!-- ===========================================================
+     PASSO 2 — SEGUNDA PALAVRA
+=========================================================== -->
+<div id="s2" class="center-box step fade-in">
+
+    <p class="frase">
+        "Você é o meu <b>lar</b> porque <b>______</b>"
+    </p>
+
+    <a href="javascript:go('s3')" class="card-option">me acalma</a>
+    <a href="erro.html" class="card-option wrong">me inspira</a>
+    <a href="erro.html" class="card-option wrong">me fortalece</a>
+
+</div>
+
+<!-- ===========================================================
+     PASSO 3 — TERCEIRA PALAVRA
+=========================================================== -->
+<div id="s3" class="center-box step fade-in">
+
+    <p class="frase">
+        "Você é o meu <b>lar</b> porque <b>me acalma</b> e sempre <b>______</b>"
+    </p>
+
+    <a href="desafio3.html" class="card-option correct">me escolhe</a>
+    <a href="erro.html" class="card-option wrong">me entende</a>
+    <a href="erro.html" class="card-option wrong">me ilumina</a>
+
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>

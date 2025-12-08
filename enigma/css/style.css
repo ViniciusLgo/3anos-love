@@ -1,0 +1,305 @@
+/* ======================================================
+   TEMA DARK LOVE ORIGINAL — 3 ANOS
+   AZUL ESCURO + ROSA NEON + MICROANIMAÇÕES
+====================================================== */
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, #0f172a, #1e293b, #0f172a);
+    color: #e2e8f0;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+}
+
+/* ======================================================
+   CORAÇÕES FLUTUANDO
+====================================================== */
+#hearts-container {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.heart {
+    position: absolute;
+    color: #ff80c8;
+    font-size: 14px;
+    opacity: 0.5;
+    animation: floatUp linear forwards;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0.7); opacity: 0.3; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 1; }
+}
+
+/* ======================================================
+   CABEÇALHO
+====================================================== */
+.header {
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 20px;
+    z-index: 10;
+    position: relative;
+}
+
+.typewriter {
+    font-size: 26px;
+    overflow: hidden;
+    border-right: 3px solid #f472b6;
+    white-space: nowrap;
+    animation: typing 3s steps(40), blink .7s infinite;
+}
+
+@keyframes typing { from { width: 0 } to { width: 100% } }
+@keyframes blink { 50% { border-color: transparent } }
+
+.sub {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* ======================================================
+   CAIXAS CENTRAIS (DESAFIOS)
+====================================================== */
+.center-box {
+    max-width: 700px;
+    margin: 40px auto;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 25px;
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+}
+
+/* Fade suave das páginas */
+.fade-in {
+    animation: fadeIn .8s ease forwards;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Glow neon rosa da página de erro */
+.fade-in-glow {
+    animation: errorGlow 1.4s ease;
+}
+
+@keyframes errorGlow {
+    0% { box-shadow: 0 0 0px #f472b6; }
+    100% { box-shadow: 0 0 20px #f472b6; }
+}
+
+/* ======================================================
+   BOTÕES
+====================================================== */
+
+.start-btn, .next-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 26px;
+    background: linear-gradient(135deg, #f472b6, #a855f7);
+    border-radius: 999px;
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+    transition: .25s ease;
+}
+
+.start-btn:hover, .next-btn:hover {
+    transform: scale(1.05);
+}
+
+.next-btn.show { display: inline-block; }
+
+/* Botões do jogo */
+.card-option,
+.choice-btn {
+    display: block;
+    padding: 16px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+    margin: 12px auto;
+    width: 90%;
+    cursor: pointer;
+    transition: .25s;
+    color: #e2e8f0;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.card-option:hover,
+.choice-btn:hover {
+    background: rgba(255,255,255,0.15);
+    transform: scale(1.03);
+}
+
+/* ======================================================
+   GRADE DE 10 CORAÇÕES (DESAFIO 3)
+====================================================== */
+
+.pulse-grid-10 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 por linha */
+    gap: 22px;
+    margin-top: 25px;
+}
+
+.pulse-grid-10 a {
+    font-size: 54px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.heart-fast, .heart-normal {
+    font-size: 46px;
+    display: inline-block;
+}
+
+.heart-fast {
+    animation: pulseFast .6s infinite;
+}
+
+.heart-normal {
+    animation: pulseNormal 1.2s infinite;
+}
+
+@keyframes pulseFast {
+    0% { transform: scale(1); opacity: .9; }
+    50% { transform: scale(1.4); opacity: 1; }
+    100% { transform: scale(1); opacity: .9; }
+}
+
+@keyframes pulseNormal {
+    0% { transform: scale(1); opacity: .85; }
+    50% { transform: scale(1.25); opacity: 1; }
+    100% { transform: scale(1); opacity: .85; }
+}
+
+/* ======================================================
+   DATA ESPECIAL (DESAFIO 4)
+====================================================== */
+
+/* ======================================================
+   GRADE DE 16 DATAS (DESAFIO 4)
+====================================================== */
+
+.date-options-16 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 por linha */
+    gap: 16px;
+    margin-top: 25px;
+}
+
+.date-btn {
+    padding: 14px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px;
+    text-decoration: none;
+    color: #e2e8f0;
+    border: 1px solid rgba(255,255,255,0.12);
+    font-size: 15px;
+    text-align: center;
+    transition: .25s;
+}
+
+.date-btn:hover {
+    background: rgba(255,255,255,0.20);
+    transform: scale(1.05);
+}
+
+
+.date-box {
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+.digit {
+    padding: 6px 14px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(230,200,255,0.2);
+    font-weight: 600;
+}
+
+/* ======================================================
+   MENSAGEM OCULTA (DESAFIO 5)
+====================================================== */
+
+.hidden-msg {
+    filter: blur(6px);
+    transition: 0.4s;
+    font-size: 18px;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.hidden-msg:hover,
+.hidden-msg:active {
+    filter: blur(0);
+}
+
+/* ======================================================
+   CARTA FINAL
+====================================================== */
+
+
+/* ================================
+   DESAFIO FINAL — REVELAR IMAGEM
+================================ */
+
+.reveal-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.blur-image {
+    width: 80%;
+    max-width: 380px;
+    border-radius: 16px;
+    filter: blur(35px);
+    transition: filter 0.4s ease;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.18);
+    box-shadow: 0 0 25px rgba(255,105,180,0.4);
+}
+
+.final-box {
+    padding: 40px;
+    font-size: 18px;
+    line-height: 32px;
+}
+
+/* ======================================================
+   BOTÃO DE MÚSICA
+====================================================== */
+
+.music-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.08);
+    padding: 10px;
+    border-radius: 14px;
+    cursor: pointer;
+    z-index: 999;
+    font-size: 22px;
+    transition: .3s;
+}
+
+.music-toggle:hover {
+    background: rgba(255,255,255,0.2);
+}
+

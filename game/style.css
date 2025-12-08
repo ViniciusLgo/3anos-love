@@ -1,0 +1,124 @@
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+/* ANIMAÇÃO */
+.fade-up {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+    transition: all .45s ease;
+}
+.fade-up.show {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+/* TITULOS */
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #f9a8d4;
+}
+.subtitle {
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+/* BOTÃO VOLTAR */
+.btn-back {
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid #475569;
+    color: #cbd5e1;
+    transition: .2s;
+}
+.btn-back:hover {
+    border-color: #f9a8d4;
+    color: #f9a8d4;
+}
+
+/* CARDS */
+.card {
+    padding: 18px;
+    border-radius: 16px;
+    background: rgba(15,23,42,0.9);
+    border: 1px solid transparent;
+    transition: .18s ease;
+    text-align: left;
+}
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px rgba(0,0,0,.4);
+}
+.card .emoji {
+    font-size: 30px;
+}
+.card p {
+    font-size: 11px;
+    color: #cbd5e1;
+}
+
+.card.pink { border-color: rgba(255,128,171,.5); }
+.card.green { border-color: rgba(16,185,129,.5); }
+.card.blue { border-color: rgba(96,165,250,.5); }
+
+/* JOGO – CORAÇÕES */
+.heart {
+    position: absolute;
+    cursor: pointer;
+    user-select: none;
+    transition: .12s ease;
+}
+.heart:hover {
+    transform: scale(1.25);
+}
+
+/* GRID RESPONSIVO DO JOGO DA MEMÓRIA */
+#memory-grid {
+    width: 90%;                /* ocupa boa parte da tela */
+    max-width: 900px;          /* limite para não estourar */
+    margin: 0 auto;            /* centralizado */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 colunas */
+    gap: 20px;                 /* espaço confortável */
+}
+
+/* CARTAS QUADRADAS E GRANDES */
+.memory-card {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(100, 116, 139, 0.5);
+    border-radius: 14px;
+    transition: .2s ease;
+    cursor: pointer;
+
+    /* TRUQUE PARA FICAR QUADRADO SEM DEFORMAR */
+    aspect-ratio: 1 / 1;       
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.memory-card img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity .25s ease;
+}
+
+/* ESTADOS */
+.memory-card.flipped {
+    transform: translateY(-4px);
+}
+
+.memory-card.matched {
+    opacity: 0.5;
+    cursor: default;
+}
+
+

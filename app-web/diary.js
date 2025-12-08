@@ -1,280 +1,389 @@
-// ===============================
-// Nosso Diário Digital - diary.js
-// ===============================
-console.log("Diário Digital carregado 💌");
+// =====================================================================
+// 📖 DIÁRIO DIGITAL – VERSÃO COMPLETA, SIMPLES E LINDA
+// Tudo aqui: memórias iniciais, regras e comentários pra você expandir.
+// =====================================================================
 
-// Storage key
-const STORAGE_KEY = "loveDiaryEntries";
+console.log("Diário Digital carregado 💗");
 
-// Estado em memória
+const STORAGE_KEY = "loveDiaryV3";
 let entries = [];
 let editingId = null;
 
-// -------------------------------
-// 1. Defaults iniciais
-// -------------------------------
+// =====================================================================
+// 1. POSSIBILIDADES PARA CRIAR / EDITAR MEMÓRIAS
+// =====================================================================
+//
+// Cada memória é um objeto com:
+// {
+//   id: string            → use crypto.randomUUID() nos novos
+//   date: "YYYY-MM-DD"   → ex: "2024-12-09"
+//   title: string        → título curtinho
+//   tag: string          → tema/categoria
+//   mood: string         → sentimento principal
+//   highlight: string    → estilo especial (opcional)
+//   text: string         → texto da lembrança
+//   createdAt: string    → ISO da criação (new Date().toISOString())
+// }
+//
+// 🔖 TAGS (exemplos, você pode inventar mais):
+//   "Romance", "Viagem", "Saudade", "Rotina", "Briguinha",
+//   "Filme", "Mensagem", "Data especial", "Conversa", "Carinho"
+//
+// 💟 MOODS (use exatamente esses valores pra bater com os selects):
+//   "feliz"
+//   "grata"
+//   "apaixonada"
+//   "com saudade"
+//   "calma"
+//   "ansiosa"
+//
+// ✨ HIGHLIGHT (opcional – visual, você pode trocar no CSS se quiser):
+//   ""        → normal
+//   "gold"    → muito especial
+//   "calm"    → suave / noite tranquila
+//   "chaos"   → dia intenso / briguinha / emoção forte
+//
+// Pra criar mais memórias, basta copiar um objeto em defaultEntries,
+// colar, mudar o conteúdo e deixar o id como crypto.randomUUID().
+// =====================================================================
+
+
+// =====================================================================
+// 2. MEMÓRIAS INICIAIS (20 MEMÓRIAS MISTURANDO ROMANCE, ROTINA, SAUDADE)
+// =====================================================================
 const defaultEntries = [
   {
-    id: 1,
+    id: crypto.randomUUID(),
     date: "2021-03-15",
     title: "O começo oficial",
     tag: "Início",
     mood: "apaixonada",
     highlight: "gold",
-    text:
-      "Foi aqui que tudo começou pra valer. Eu tava nervosa, feliz e com aquela sensação de 'é isso'. " +
-      "Talvez a gente não tivesse ideia de tudo que viria depois, mas eu já sentia que era diferente.",
-    createdAt: "2021-03-15T20:00:00",
+    text: "Foi aqui que tudo começou. Eu tava feliz, nervosa e com aquela sensação de que algo muito bonito tava nascendo.",
+    createdAt: "2021-03-15T20:00:00"
   },
   {
-    id: 2,
-    date: "2022-07-09",
-    title: "Dia comum, mas especial",
+    id: crypto.randomUUID(),
+    date: "2021-07-02",
+    title: "A primeira saudade forte",
+    tag: "Saudade",
+    mood: "com saudade",
+    highlight: "",
+    text: "Tentei fingir que tava tudo bem, mas a saudade apertou diferente. Foi quando eu percebi o quanto você já fazia parte de mim.",
+    createdAt: "2021-07-02T21:00:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2021-10-09",
+    title: "Nosso lanche favorito 🍔",
+    tag: "Rotina",
+    mood: "feliz",
+    highlight: "calm",
+    text: "Nada demais: só a gente, comida simples, briga pela batata e risada boba. Mas eu amo exatamente esse tipo de dia.",
+    createdAt: "2021-10-09T18:00:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2022-01-10",
+    title: "A ligação que salvou meu dia",
+    tag: "Conversa",
+    mood: "calma",
+    highlight: "calm",
+    text: "Eu tava cansado(a), cabeça cheia, e você ligou. Não resolveu tudo, mas a sua voz fez o mundo ficar menos pesado.",
+    createdAt: "2022-01-10T20:40:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2022-03-19",
+    title: "Um abraço que virou lar",
+    tag: "Romance",
+    mood: "apaixonada",
+    highlight: "gold",
+    text: "Você me abraçou e eu simplesmente entendi: é aqui que eu quero voltar sempre que o mundo pesar.",
+    createdAt: "2022-03-19T19:20:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2022-05-01",
+    title: "Nossa primeira briguinha fofa",
+    tag: "Briguinha",
+    mood: "ansiosa",
+    highlight: "",
+    text: "A gente discutiu por uma bobagem e depois caiu na risada do nosso próprio drama. A cara da gente.",
+    createdAt: "2022-05-01T16:00:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2022-06-11",
+    title: "O filme que virou memória",
+    tag: "Filme",
+    mood: "feliz",
+    highlight: "",
+    text: "Nem era o melhor filme do mundo. Mas eu lembro da forma como você encostou em mim, dos comentários e do clima daquele dia.",
+    createdAt: "2022-06-11T23:00:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2022-08-25",
+    title: "A foto que eu não canso de olhar",
+    tag: "Carinho",
+    mood: "apaixonada",
+    highlight: "",
+    text: "Você tava tão você naquela foto. Natural, rindo do jeito que eu mais gosto. Às vezes eu volto nela só pra sentir de novo.",
+    createdAt: "2022-08-25T14:10:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2022-09-15",
+    title: "A noite que rimos até doer",
+    tag: "Diversão",
+    mood: "feliz",
+    highlight: "",
+    text: "Nem lembro direito das piadas, só lembro que eu não conseguia parar de rir com você. Sério, meu rosto doía.",
+    createdAt: "2022-09-15T22:50:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2022-11-12",
+    title: "Saudade em dia cheio",
+    tag: "Saudade",
+    mood: "com saudade",
+    highlight: "",
+    text: "Mesmo com mil coisas para fazer, em vários momentos pensei 'queria que você estivesse aqui agora'.",
+    createdAt: "2022-11-12T23:40:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2023-01-01",
+    title: "Primeiro dia do ano com você",
+    tag: "Data especial",
+    mood: "feliz",
+    highlight: "gold",
+    text: "Começar o ano com você do meu lado foi a melhor forma de dizer pra mim mesmo(a): quero você em todos os próximos também.",
+    createdAt: "2023-01-01T01:10:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2023-02-14",
+    title: "Nosso mini encontro",
+    tag: "Romance",
+    mood: "apaixonada",
+    highlight: "",
+    text: "Foi rápido, simples, nada de filme. Mas o jeito que você me olhou naquele dia ficou guardado em mim.",
+    createdAt: "2023-02-14T20:30:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2023-03-03",
+    title: "Quando você cuidou de mim",
+    tag: "Carinho",
+    mood: "grata",
+    highlight: "",
+    text: "Eu não tava bem e você ficou ali, presente. Esse tipo de cuidado vale mais que qualquer palavra bonita.",
+    createdAt: "2023-03-03T15:40:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2023-04-20",
+    title: "Nosso momento favorito",
     tag: "Rotina",
     mood: "feliz",
     highlight: "",
-    text:
-      "Não teve viagem, nem festa, nem nada gigante. Mas teve a gente, rindo de coisa boba, comendo, " +
-      "falando da vida. E eu gosto demais desses dias que parecem simples, mas ficam na memória.",
-    createdAt: "2022-07-09T22:10:00",
+    text: "A gente junto, fazendo nada demais. E ainda assim parece tudo. É o tipo de coisa que eu quero repetir mil vezes.",
+    createdAt: "2023-04-20T19:10:00"
   },
   {
-    id: 3,
-    date: "2023-11-12",
-    title: "Saudade apertando",
-    tag: "Saudade",
-    mood: "com saudade",
-    highlight: "calm",
-    text:
-      "Teve aquele dia que a saudade bateu forte. A gente não conseguiu se ver, mas ficou na chamada, " +
-      "falando até tarde. Não é a mesma coisa, mas ainda assim me acalmou.",
-    createdAt: "2023-11-12T23:40:00",
+    id: crypto.randomUUID(),
+    date: "2023-06-25",
+    title: "Briguinha boba + abraço forte",
+    tag: "Briguinha",
+    mood: "ansiosa",
+    highlight: "chaos",
+    text: "A gente se estranhou, o clima ficou estranho, mas depois veio o abraço que arrumou tudo. E eu lembrei que a gente sempre dá um jeito.",
+    createdAt: "2023-06-25T21:20:00"
   },
+  {
+    id: crypto.randomUUID(),
+    date: "2023-08-09",
+    title: "Quando você sorriu daquele jeito",
+    tag: "Carinho",
+    mood: "apaixonada",
+    highlight: "",
+    text: "Aquele sorriso específico… você sabe qual é. Ele simplesmente fez meu coração derreter naquele momento.",
+    createdAt: "2023-08-09T17:50:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2023-10-01",
+    title: "Conversas profundas",
+    tag: "Conversa",
+    mood: "calma",
+    highlight: "",
+    text: "A gente falou de medo, futuro, família, sonhos. Não eram respostas prontas, eram dois corações tentando se entender.",
+    createdAt: "2023-10-01T22:30:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2024-01-18",
+    title: "A mensagem que mudou meu dia",
+    tag: "Mensagem",
+    mood: "feliz",
+    highlight: "",
+    text: "Você mandou algo tão simples, mas que mexeu comigo. Eu tava mal, e de repente fiquei leve. Obrigado(a) por isso.",
+    createdAt: "2024-01-18T09:20:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2024-03-09",
+    title: "Dia corrido, mas com você",
+    tag: "Rotina",
+    mood: "grata",
+    highlight: "",
+    text: "Mesmo sem conseguir ficar tanto tempo junto, só saber que você tava ali, torcendo por mim, já deixou tudo mais fácil.",
+    createdAt: "2024-03-09T20:10:00"
+  },
+  {
+    id: crypto.randomUUID(),
+    date: "2024-05-27",
+    title: "Quando eu percebi que era amor",
+    tag: "Romance",
+    mood: "apaixonada",
+    highlight: "gold",
+    text: "Não foi num grande evento, nem numa data especial. Foi num dia qualquer, te vendo falar de algo bobo, e eu pensei: é amor.",
+    createdAt: "2024-05-27T21:00:00"
+  }
 ];
 
-// -------------------------------
-// 2. Utils
-// -------------------------------
+// =====================================================================
+// 3. LOAD / SAVE (localStorage)
+// =====================================================================
 function loadEntries() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      entries = [...defaultEntries];
-      saveEntries(); // já grava o default
-      return;
-    }
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) {
-      entries = [...defaultEntries];
-      saveEntries();
-      return;
-    }
-    entries = parsed;
-  } catch (err) {
-    console.warn("Erro ao carregar diário, usando defaults:", err);
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw) {
+    entries = JSON.parse(raw);
+  } else {
     entries = [...defaultEntries];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
   }
 }
 
 function saveEntries() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+  renderEntries();
   updateStats();
 }
 
-function moodToLabel(mood) {
-  switch (mood) {
-    case "feliz":
-      return "😊 Feliz";
-    case "grata":
-      return "🙏 Grata";
-    case "apaixonada":
-      return "💘 Apaixonada";
-    case "com saudade":
-      return "🥹 Com saudade";
-    case "calma":
-      return "🫧 Calma";
-    case "ansiosa":
-      return "😵 Ansiosa";
-    default:
-      return "✨ Sentindo muitas coisas";
-  }
-}
-
-function highlightClasses(highlight) {
-  if (highlight === "gold") {
-    return "border-amber-300/70 bg-amber-400/5";
-  }
-  if (highlight === "calm") {
-    return "border-sky-300/60 bg-sky-400/5";
-  }
-  if (highlight === "chaos") {
-    return "border-pink-400/70 bg-pink-500/5";
-  }
-  return "border-slate-700/70 bg-slate-900/70";
-}
-
-function formatDate(dateStr) {
-  if (!dateStr) return "Sem data";
-  const [y, m, d] = dateStr.split("-");
-  if (!y || !m || !d) return dateStr;
-  return `${d}/${m}/${y}`;
-}
-
-// -------------------------------
-// 3. Renderização
-// -------------------------------
+// =====================================================================
+// 4. RENDERIZAÇÃO DA LISTA
+// =====================================================================
 function renderEntries() {
-  const listEl = document.getElementById("entries-list");
-  const searchInput = document.getElementById("search-input");
-  const filterMood = document.getElementById("filter-mood");
+  const list = document.getElementById("entries-list");
+  const search = document.getElementById("search-input").value.toLowerCase();
+  const moodFilter = document.getElementById("filter-mood").value;
 
-  if (!listEl) return;
-
-  const term = (searchInput?.value || "").toLowerCase();
-  const moodFilter = filterMood?.value || "";
-
-  let filtered = [...entries];
-
-  if (term) {
-    filtered = filtered.filter((e) => {
-      const blob =
-        `${e.title} ${e.text} ${e.tag} ${e.mood}`.toLowerCase();
-      return blob.includes(term);
-    });
-  }
+  let filtered = entries.filter(e =>
+    `${e.title} ${e.text} ${e.tag}`.toLowerCase().includes(search)
+  );
 
   if (moodFilter) {
-    filtered = filtered.filter((e) => e.mood === moodFilter);
+    filtered = filtered.filter(e => e.mood === moodFilter);
   }
 
-  // ordena: data + createdAt (mais recentes primeiro)
-  filtered.sort((a, b) => {
-    const da = (a.date || "") + (a.createdAt || "");
-    const db = (b.date || "") + (b.createdAt || "");
-    return db.localeCompare(da);
-  });
+  filtered.sort((a, b) => (b.date + b.createdAt).localeCompare(a.date + a.createdAt));
 
   if (!filtered.length) {
-    listEl.innerHTML =
-      '<p class="text-[11px] text-slate-400">Nenhuma memória encontrada com esse filtro. Tenta mudar a busca ou criar uma nova entrada. 💗</p>';
+    list.innerHTML = `<p class="text-[11px] text-slate-400">Nenhuma memória encontrada ainda com esse filtro. 💗</p>`;
     return;
   }
 
-  listEl.innerHTML = filtered
-    .map((entry) => {
-      const classes = highlightClasses(entry.highlight);
-      const preview =
-        entry.text.length > 180
-          ? entry.text.slice(0, 180) + "..."
-          : entry.text;
+  list.innerHTML = filtered.map(e => `
+    <button class="entry-card" data-id="${e.id}">
+      <div class="flex justify-between items-start mb-1">
+        <div class="title">${e.title}</div>
+        <div class="date">${formatDate(e.date)}</div>
+      </div>
+      <p class="text">${previewText(e.text)}</p>
+      <div class="bottom">
+        <span class="tag">🏷 ${e.tag}</span>
+        <span class="mood">${moodLabel(e.mood)}</span>
+      </div>
+    </button>
+  `).join("");
 
-      return `
-        <button
-          class="w-full text-left rounded-2xl px-3 py-2.5 text-xs card-hover ${classes}"
-          data-entry-id="${entry.id}"
-        >
-          <div class="flex items-center justify-between mb-1.5">
-            <div class="flex items-center gap-2">
-              <span class="text-[13px]">${moodToLabel(entry.mood).split(" ")[0]}</span>
-              <span class="font-semibold text-slate-100">
-                ${entry.title || "(sem título)"}
-              </span>
-            </div>
-            <span class="text-[10px] text-slate-400">
-              ${formatDate(entry.date)}
-            </span>
-          </div>
-          <p class="text-[11px] text-slate-300 mb-1">
-            ${preview || "<span class='text-slate-500'>(sem texto)</span>"}
-          </p>
-          <div class="flex items-center justify-between text-[10px] text-slate-400">
-            <span class="inline-flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-pink-400/80"></span>
-              ${entry.tag || "Sem tag"}
-            </span>
-            <span class="italic">Clique para editar</span>
-          </div>
-        </button>
-      `;
-    })
-    .join("");
-
-  // listener de clique nos cards
-  listEl.querySelectorAll("[data-entry-id]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const id = parseInt(btn.getAttribute("data-entry-id"), 10);
-      loadEntryIntoForm(id);
-    });
+  list.querySelectorAll("[data-id]").forEach(btn => {
+    btn.addEventListener("click", () => loadEntryIntoForm(btn.dataset.id));
   });
 }
 
+function previewText(text) {
+  return text.length > 160 ? text.slice(0, 160) + "..." : text;
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return "--/--/----";
+  const [y, m, d] = dateStr.split("-");
+  return `${d}/${m}/${y}`;
+}
+
+function moodLabel(mood) {
+  return {
+    feliz: "😊 Feliz",
+    grata: "🙏 Grata",
+    apaixonada: "💘 Apaixonada",
+    "com saudade": "🥹 Com saudade",
+    calma: "🫧 Calma",
+    ansiosa: "😵 Ansiosa"
+  }[mood] || "✨ Sentindo muitas coisas";
+}
+
+// =====================================================================
+// 5. ESTATÍSTICAS (contagem + última memória)
+// =====================================================================
 function updateStats() {
   const statsCount = document.getElementById("stats-count");
   const statsLast = document.getElementById("stats-last");
 
-  if (!statsCount || !statsLast) return;
-
   const total = entries.length;
-  statsCount.textContent =
-    total === 0
-      ? "Nenhuma memória ainda"
-      : total === 1
-      ? "1 memória"
-      : `${total} memórias`;
+  statsCount.textContent = total === 1 ? "1 memória" : `${total} memórias`;
 
   if (!total) {
     statsLast.textContent = "—";
     return;
   }
 
-  const sorted = [...entries].sort((a, b) => {
-    const da = (a.date || "") + (a.createdAt || "");
-    const db = (b.date || "") + (b.createdAt || "");
-    return db.localeCompare(da);
-  });
-
+  const sorted = [...entries].sort((a, b) =>
+    (b.date + b.createdAt).localeCompare(a.date + a.createdAt)
+  );
   const last = sorted[0];
-  statsLast.textContent = `${formatDate(last.date)} — ${
-    last.title || "Sem título"
-  }`;
+  statsLast.textContent = `${formatDate(last.date)} — ${last.title}`;
 }
 
-// -------------------------------
-// 4. Formulário
-// -------------------------------
+// =====================================================================
+// 6. FORMULÁRIO (criar / editar / limpar / excluir)
+// =====================================================================
 function clearForm() {
   const form = document.getElementById("entry-form");
-  if (!form) return;
-
   form.reset();
-  form.id.value = "";
   editingId = null;
-
-  const btnDelete = document.getElementById("btn-delete");
-  if (btnDelete) btnDelete.classList.add("hidden");
+  document.getElementById("btn-delete").classList.add("hidden");
 }
 
 function loadEntryIntoForm(id) {
-  const form = document.getElementById("entry-form");
-  if (!form) return;
-
-  const entry = entries.find((e) => e.id === id);
+  const entry = entries.find(e => e.id === id);
   if (!entry) return;
 
   editingId = id;
+  const form = document.getElementById("entry-form");
 
-  form.id.value = entry.id;
   form.date.value = entry.date || "";
-  form.title.value = entry.title || "";
   form.tag.value = entry.tag || "";
+  form.title.value = entry.title || "";
   form.mood.value = entry.mood || "";
   form.highlight.value = entry.highlight || "";
   form.text.value = entry.text || "";
 
-  const btnDelete = document.getElementById("btn-delete");
-  if (btnDelete) btnDelete.classList.remove("hidden");
+  document.getElementById("btn-delete").classList.remove("hidden");
 
-  // scroll até o formulário em telas menores
   form.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
@@ -283,123 +392,87 @@ function setupFormHandlers() {
   const btnClear = document.getElementById("btn-clear");
   const btnDelete = document.getElementById("btn-delete");
 
-  if (!form) return;
-
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const fd = new FormData(form);
-    const idRaw = fd.get("id");
-    const date = fd.get("date") || "";
-    const title = (fd.get("title") || "").trim();
-    const tag = (fd.get("tag") || "").trim();
-    const mood = fd.get("mood") || "";
-    const highlight = fd.get("highlight") || "";
-    const text = (fd.get("text") || "").trim();
+    const data = Object.fromEntries(fd.entries());
 
-    if (!date && !title && !text) {
+    const hasContent =
+      (data.title && data.title.trim()) ||
+      (data.text && data.text.trim()) ||
+      (data.date && data.date.trim());
+
+    if (!hasContent) {
       alert("Coloca pelo menos uma data, um título ou um texto para salvar a memória. 💗");
       return;
     }
 
-    const nowIso = new Date().toISOString();
-
-    if (idRaw) {
+    if (editingId) {
       // update
-      const id = parseInt(idRaw, 10);
-      const idx = entries.findIndex((e) => e.id === id);
+      const idx = entries.findIndex(e => e.id === editingId);
       if (idx !== -1) {
-        entries[idx] = {
-          ...entries[idx],
-          date,
-          title,
-          tag,
-          mood,
-          highlight,
-          text,
-        };
+        entries[idx] = { ...entries[idx], ...data };
       }
     } else {
       // create
-      const newId =
-        entries.length > 0
-          ? Math.max(...entries.map((e) => e.id)) + 1
-          : 1;
-
       entries.push({
-        id: newId,
-        date,
-        title,
-        tag,
-        mood,
-        highlight,
-        text,
-        createdAt: nowIso,
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+        ...data
       });
     }
 
     saveEntries();
-    renderEntries();
     clearForm();
   });
 
-  if (btnClear) {
-    btnClear.addEventListener("click", () => clearForm());
-  }
+  btnClear.addEventListener("click", () => clearForm());
 
-  if (btnDelete) {
-    btnDelete.addEventListener("click", () => {
-      if (!editingId) return;
-      const confirmDelete = confirm(
-        "Tem certeza que quer excluir essa lembrança do diário?"
-      );
-      if (!confirmDelete) return;
+  btnDelete.addEventListener("click", () => {
+    if (!editingId) return;
+    const confirmDelete = confirm("Tem certeza que quer excluir essa lembrança do diário? 💔");
+    if (!confirmDelete) return;
 
-      entries = entries.filter((e) => e.id !== editingId);
-      saveEntries();
-      renderEntries();
-      clearForm();
-    });
-  }
+    entries = entries.filter(e => e.id !== editingId);
+    saveEntries();
+    clearForm();
+  });
 }
 
-// -------------------------------
-// 5. Filtros (busca + sentimento)
-// -------------------------------
+// =====================================================================
+// 7. FILTROS (busca + sentimento)
+// =====================================================================
 function setupFilters() {
   const searchInput = document.getElementById("search-input");
   const filterMood = document.getElementById("filter-mood");
 
-  if (searchInput) {
-    searchInput.addEventListener("input", () => {
-      renderEntries();
-    });
-  }
-
-  if (filterMood) {
-    filterMood.addEventListener("change", () => {
-      renderEntries();
-    });
-  }
+  searchInput.addEventListener("input", () => renderEntries());
+  filterMood.addEventListener("change", () => renderEntries());
 }
 
-// -------------------------------
-// 6. Animação básica de entrada
-// -------------------------------
-function initFadeUp() {
-  document.querySelectorAll(".fade-up").forEach((el, i) => {
-    setTimeout(() => el.classList.add("show"), 120 + i * 120);
+// =====================================================================
+// 8. MÚSICA DE FUNDO (best effort – alguns browsers só tocam após clique)
+// =====================================================================
+function initMusic() {
+  const audio = document.getElementById("bg-music");
+  if (!audio) return;
+
+  audio.volume = 0.4;
+  audio.play().catch(() => {
+    // Se o navegador bloquear o autoplay, ele começa a tocar
+    // automaticamente depois que a pessoa interagir com a página.
   });
 }
 
-// -------------------------------
-// 7. Bootstrap
-// -------------------------------
+// =====================================================================
+// 9. BOOTSTRAP
+// =====================================================================
 document.addEventListener("DOMContentLoaded", () => {
   loadEntries();
   setupFormHandlers();
   setupFilters();
   renderEntries();
   updateStats();
-  initFadeUp();
+  initMusic();
 });

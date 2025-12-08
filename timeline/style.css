@@ -1,6 +1,6 @@
-/* ==========================================
-   BASE
-========================================== */
+/* ======================================================
+   BASE VISUAL — FUNDO E TIPOGRAFIA
+====================================================== */
 body {
     margin: 0;
     padding: 0;
@@ -10,9 +10,9 @@ body {
     overflow-x: hidden;
 }
 
-/* ==========================================
+/* ======================================================
    CORAÇÕES FLUTUANDO
-========================================== */
+====================================================== */
 #hearts-container {
     position: fixed;
     inset: 0;
@@ -24,58 +24,54 @@ body {
 .heart {
     position: absolute;
     color: #ff91c8;
-    font-size: 12px;
+    font-size: 14px;
     opacity: 0.6;
     animation: floatUp linear forwards;
 }
 
 @keyframes floatUp {
-    0% {
-        transform: translateY(100vh) scale(0.6);
-    }
-    100% {
-        transform: translateY(-10vh) scale(1);
-    }
+    0% { transform: translateY(100vh) scale(0.6); opacity: 0.3; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0.9; }
 }
 
-/* ==========================================
-   BOTÃO DA MÚSICA
-========================================== */
-#music-btn {
-    position: fixed;
-    top: 18px;
-    right: 18px;
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.21);
-    border-radius: 50%;
-    padding: 14px;
-    cursor: pointer;
-    color: white;
-    font-size: 20px;
-    transition: 0.2s ease;
-    z-index: 20;
-}
-
-#music-btn:hover {
-    transform: scale(1.1);
-}
-
-/* ==========================================
-   CABEÇALHO + TÍTULO (MÁQUINA DE ESCREVER)
-========================================== */
-header {
+/* ======================================================
+   CABEÇALHO — MÁQUINA DE ESCREVER
+====================================================== */
+.header-timeline {
     text-align: center;
-    padding: 40px 20px 20px;
+    padding-top: 60px;
+    padding-bottom: 20px;
     position: relative;
     z-index: 5;
+}
+
+.header-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+.back-btn {
+    font-size: 12px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 8px 18px;
+    border-radius: 10px;
+    color: #e2e8f0;
+    text-decoration: none;
+    transition: 0.25s;
+}
+
+.back-btn:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.25);
 }
 
 .typewriter {
     overflow: hidden;
     border-right: 3px solid #f472b6;
     white-space: nowrap;
-    margin: 0 auto;
     letter-spacing: 1px;
     animation: typing 3.5s steps(40, end), blink 0.7s infinite;
     display: inline-block;
@@ -92,49 +88,17 @@ header {
     100% { border-color: transparent }
 }
 
-/* ==========================================
-   FILTROS (Fase 4)
-========================================== */
-.filters {
-    margin-top: 22px;
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
-}
-
-.filter-group {
-    display: flex;
-    flex-direction: column;
-    font-size: 12px;
-    color: #cbd5f5;
-}
-
-.filter-group label {
-    margin-bottom: 4px;
-}
-
-.filter-group select {
-    background: rgba(15, 23, 42, 0.9);
-    color: #e2e8f0;
-    border-radius: 8px;
-    border: 1px solid #475569;
-    padding: 6px 10px;
-    font-size: 12px;
-}
-
-/* ==========================================
-   TIMELINE
-========================================== */
+/* ======================================================
+   TIMELINE — ESTRUTURA PRINCIPAL
+====================================================== */
 .timeline-container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 60px 20px 40px;
+    padding: 40px 20px 60px;
     position: relative;
     z-index: 2;
 }
 
-/* LINHA CENTRAL */
 .timeline-line {
     position: absolute;
     left: 50%;
@@ -152,10 +116,36 @@ header {
     height: 0%;
     background: linear-gradient(#f472b6, #fb7185);
     border-radius: 10px;
-    transition: height 0.25s ease-out;
 }
 
-/* ITEMS */
+/* Botão de carregar mais momentos */
+.load-more {
+    display: block;
+    margin: 10px auto 0;
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(248, 250, 252, 0.2);
+    background: rgba(15,23,42,0.9);
+    color: #e2e8f0;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    position: relative;
+    z-index: 10;
+}
+
+.load-more:hover {
+    background: rgba(30,64,175,0.9);
+    border-color: rgba(191,219,254,0.8);
+}
+
+.load-more.hidden {
+    display: none;
+}
+
+/* ======================================================
+   TIMELINE ITEM
+====================================================== */
 .timeline-item {
     position: relative;
     width: 50%;
@@ -163,7 +153,7 @@ header {
     margin: 40px 0;
     opacity: 0;
     transform: translateY(40px);
-    transition: all 0.8s ease;
+    transition: all 0.7s ease;
 }
 
 .timeline-item.visible {
@@ -180,7 +170,7 @@ header {
     left: 50%;
 }
 
-/* Pontos luminosos */
+/* Pontos de luz */
 .timeline-item::before {
     content: "";
     position: absolute;
@@ -201,10 +191,12 @@ header {
     left: -9px;
 }
 
-/* CARD */
+/* ======================================================
+   CARD DOS EVENTOS
+====================================================== */
 .timeline-card {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
     backdrop-filter: blur(12px);
     border-radius: 15px;
     padding: 22px;
@@ -214,10 +206,23 @@ header {
 
 .timeline-card:hover {
     transform: translateY(-6px) scale(1.02);
-    border-color: rgba(244, 114, 182, 0.6);
+    border-color: rgba(244,114,182,0.6);
 }
 
-/* IMAGEM: BORDA CROMADA + NEON */
+/* Botão VER MAIS */
+.ver-mais-btn {
+    margin-top: 6px;
+    background: none;
+    border: none;
+    color: #c084fc;
+    cursor: pointer;
+    font-size: 12px;
+    text-decoration: underline;
+}
+
+/* ======================================================
+   IMAGEM
+====================================================== */
 .timeline-img {
     width: 100%;
     max-width: 360px;
@@ -230,49 +235,89 @@ header {
         #6366f1, #3b82f6, #22d3ee,
         #a78bfa, #f472b6);
     box-shadow:
-        0 0 10px rgba(244, 114, 182, 0.35),
-        0 0 18px rgba(168, 85, 247, 0.25),
-        0 0 25px rgba(59, 130, 246, 0.15);
-    cursor: pointer; /* Para reforçar que é clicável (modal) */
+        0 0 10px rgba(244,114,182,0.35),
+        0 0 18px rgba(168,85,247,0.25),
+        0 0 25px rgba(59,130,246,0.15);
+    cursor: pointer;
 }
 
-/* ==========================================
-   CARTA SECRETA (Fase 5)
-========================================== */
+/* ======================================================
+   MODAL
+====================================================== */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.25s ease;
+}
+
+.modal-backdrop.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+.modal-content {
+    background: rgba(15,23,42,0.95);
+    border-radius: 18px;
+    padding: 18px;
+    max-width: 90vw;
+    max-height: 90vh;
+    text-align: center;
+    position: relative;
+}
+
+.modal-content img {
+    max-width: 80vw;
+    max-height: 70vh;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* ======================================================
+   CARTA SECRETA
+====================================================== */
 .secret-section {
     max-width: 900px;
-    margin: 0 auto 40px;
-    padding: 0 20px 60px;
+    margin: 0 auto 60px;
     text-align: center;
 }
 
 #secret-btn {
     background: linear-gradient(135deg, #f472b6, #a855f7);
     border: none;
-    color: #fff;
+    color: white;
     padding: 10px 18px;
     border-radius: 999px;
     cursor: pointer;
     font-size: 14px;
-    box-shadow: 0 10px 30px rgba(248, 113, 175, 0.3);
-}
-
-#secret-btn:hover {
-    transform: translateY(-1px);
 }
 
 .secret-card {
     max-width: 700px;
-    margin: 20px auto 0;
-    padding: 18px 20px;
+    margin: 20px auto;
+    padding: 20px;
     background: rgba(15,23,42,0.85);
     border-radius: 16px;
-    border: 1px solid rgba(248, 113, 175, 0.5);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
     opacity: 0;
     transform: translateY(15px);
     pointer-events: none;
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: 0.5s ease;
 }
 
 .secret-card.visible {
@@ -281,89 +326,64 @@ header {
     pointer-events: auto;
 }
 
-/* ==========================================
-   MODAL DE FOTO (Fase 3)
-========================================== */
-.modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(15,23,42,0.85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 30;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
-}
-
-.modal-backdrop.visible {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.modal-content {
-    background: rgba(15,23,42,0.95);
-    border-radius: 18px;
-    padding: 18px;
-    max-width: 90vw;
-    max-height: 90vh;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    position: relative;
-    text-align: center;
-}
-
-.modal-content img {
-    max-width: 80vw;
-    max-height: 70vh;
-    border-radius: 12px;
-    display: block;
-    margin: 0 auto 10px;
-}
-
-.modal-content p {
-    font-size: 13px;
-    color: #e2e8f0;
-}
-
-.modal-close {
-    position: absolute;
-    top: 6px;
-    right: 8px;
-    border: none;
-    background: transparent;
-    font-size: 20px;
-    color: #e2e8f0;
-    cursor: pointer;
-}
-
-/* ==========================================
-   RESPONSIVIDADE
-========================================== */
+/* ======================================================
+   MOBILE
+====================================================== */
 @media (max-width: 768px) {
-    .timeline-item,
-    .timeline-item:nth-child(even),
-    .timeline-item:nth-child(odd) {
+    .timeline-item {
         width: 100%;
-        left: 0;
-        text-align: left;
+        left: 0 !important;
+        text-align: left !important;
         padding-left: 50px;
     }
 
     .timeline-item::before {
-        left: 18px;
-        right: auto;
+        left: 18px !important;
+        right: auto !important;
     }
 
     .timeline-line {
         left: 28px;
     }
 
-    header {
-        padding-top: 70px;
-    }
+    /* ============================
+   PLAYER DE MÚSICA
+============================ */
+/* Botão flutuante de música */
+.music-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 9999;
+    transition: 0.25s ease;
+}
 
-    .typewriter {
-        font-size: 1.4rem;
-    }
+.music-toggle:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.35);
+}
+
+.music-toggle img {
+    width: 22px;
+    height: 22px;
+    opacity: 0.8;
+}
+
+.music-toggle .fallback-icon {
+    font-size: 22px;
+    opacity: 0.8;
+}
+
+
+
 }

@@ -1,268 +1,225 @@
-console.log("Timeline Script Carregado!");
+console.log("Timeline carregada 💞");
 
 let todosEventos = [];
+let paginaAtual = 1;
+const POR_PAGINA = 4;
 
-/* ============================================================
-   1. CORAÇÕES FLUTUANDO
-============================================================ */
-function gerarCoracoes() {
-    const container = document.getElementById("hearts-container");
-
-    setInterval(() => {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.textContent = "💖";
-
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (10 + Math.random() * 20) + "px";
-        heart.style.animationDuration = (4 + Math.random() * 4) + "s";
-
-        container.appendChild(heart);
-
-        setTimeout(() => heart.remove(), 8000);
-    }, 500);
-}
-
-gerarCoracoes();
-
-/* ============================================================
-   2. MÚSICA LOCAL (audio/musica.mp3)
-============================================================ */
-const audio = new Audio("audio/musica.mp3");
-audio.loop = true;
-audio.volume = 0.4;
-
-const musicBtn = document.getElementById("music-btn");
-let tocando = false;
-
-musicBtn.addEventListener("click", () => {
-    if (tocando) {
-        audio.pause();
-        tocando = false;
-        musicBtn.textContent = "🎵";
-    } else {
-        audio.play();
-        tocando = true;
-        musicBtn.textContent = "⏸";
-    }
-});
-
-/* ============================================================
-   3. CARREGAR JSON E INICIAR TIMELINE
-============================================================ */
-async function carregarTimeline() {
+// Carregar JSON
+async function carregarEventos() {
     try {
-        const resposta = await fetch("data.json");
+        const resposta = await fetch("./assets/data.json");
         todosEventos = await resposta.json();
+        paginaAtual = 1;
 
-        inicializarFiltros(todosEventos);
-        renderizarTimeline(todosEventos);
+        renderTimeline();
+        animarHearts();
+        initLoadMore();
+
     } catch (erro) {
-        console.error("Erro ao carregar eventos:", erro);
+        console.error("Erro ao carregar timeline:", erro);
     }
 }
 
-carregarTimeline();
-
-/* ============================================================
-   4. RENDERIZAR TIMELINE (com filtros aplicados)
-============================================================ */
-function renderizarTimeline(eventos) {
-    const container = document.getElementById("timeline");
+// Renderizar timeline
+function renderTimeline() {
+    const container = document.getElementById("timeline-content");
     container.innerHTML = "";
 
-    // Ordenar por data
-    const ordenados = [...eventos].sort(
-        (a, b) => new Date(a.data) - new Date(b.data)
-    );
+    const limite = paginaAtual * POR_PAGINA;
+    const eventosParaMostrar = todosEventos.slice(0, limite);
 
-    ordenados.forEach((evento) => {
+    montarTimeline(eventosParaMostrar);
+    ativarScrollFade();
+    ativarModal();
+    ativarVerMais();
+    controlarBotaoCarregarMais();
+}
+
+// Montar cada card
+function montarTimeline(eventos) {
+    const container = document.getElementById("timeline-content");
+
+    eventos.forEach((evento, index) => {
         const item = document.createElement("div");
         item.classList.add("timeline-item");
 
-        const dataFormatada = new Date(evento.data).toLocaleDateString("pt-BR");
-        const categoria = evento.categoria || "";
-        const emocao = evento.emocao || "";
+        const ladoEsquerdo = index % 2 === 0;
+
+        item.style.left = ladoEsquerdo ? "0" : "50%";
+        item.style.textAlign = ladoEsquerdo ? "right" : "left";
+
+        const textoCompleto = evento.texto || "";
+        const LIMITE = 160;
+        const textoCurto =
+            textoCompleto.length > LIMITE
+                ? textoCompleto.slice(0, LIMITE) + "..."
+                : textoCompleto;
+
+        const precisaVerMais = textoCompleto.length > LIMITE;
 
         item.innerHTML = `
             <div class="timeline-card">
-                <h2>${evento.titulo}</h2>
-                <small>${dataFormatada}
-                    ${categoria ? " • " + categoria : ""}
-                    ${emocao ? " • " + emocao : ""}
-                </small>
-                <p>${evento.descricao}</p>
-                <img class="timeline-img"
-                     src="${evento.foto}"
-                     alt="${evento.titulo}"
-                     data-caption="${evento.descricao}">
+                <p class="text-xs text-slate-400 mb-1">${evento.data}</p>
+                <h3 class="text-lg text-pink-300 font-semibold mb-2">${evento.titulo}</h3>
+
+                <p class="text-sm text-slate-200 leading-relaxed timeline-text"
+                   data-full="${textoCompleto.replace(/"/g, "&quot;")}">
+                   ${textoCurto}
+                </p>
+
+                ${
+                    precisaVerMais
+                        ? `<button class="ver-mais-btn">ver mais</button>`
+                        : ""
+                }
+
+                ${
+                    evento.imagem
+                        ? `<img src="./assets/image/${evento.imagem}"
+                               class="timeline-img"
+                               data-caption="${evento.titulo}">
+                           `
+                        : ""
+                }
             </div>
         `;
 
         container.appendChild(item);
     });
-
-    iniciarScrollReveal();
-    inicializarModal();
 }
 
-/* ============================================================
-   5. FILTROS (Ano, Categoria, Emoção)
-============================================================ */
-function inicializarFiltros(eventos) {
-    const selectAno = document.getElementById("filter-ano");
-    const selectCategoria = document.getElementById("filter-categoria");
-    const selectEmocao = document.getElementById("filter-emocao");
-
-    // ANOS
-    const anos = Array.from(
-        new Set(
-            eventos.map(e => new Date(e.data).getFullYear().toString())
-        )
-    ).sort();
-
-    anos.forEach(ano => {
-        const opt = document.createElement("option");
-        opt.value = ano;
-        opt.textContent = ano;
-        selectAno.appendChild(opt);
-    });
-
-    // CATEGORIAS
-    const categorias = Array.from(
-        new Set(
-            eventos
-                .map(e => e.categoria)
-                .filter(Boolean)
-        )
-    ).sort();
-
-    categorias.forEach(cat => {
-        const opt = document.createElement("option");
-        opt.value = cat;
-        opt.textContent = cat;
-        selectCategoria.appendChild(opt);
-    });
-
-    // EMOÇÕES
-    const emocaoList = Array.from(
-        new Set(
-            eventos
-                .map(e => e.emocao)
-                .filter(Boolean)
-        )
-    ).sort();
-
-    emocaoList.forEach(em => {
-        const opt = document.createElement("option");
-        opt.value = em;
-        opt.textContent = em;
-        selectEmocao.appendChild(opt);
-    });
-
-    // Listeners
-    selectAno.addEventListener("change", aplicarFiltros);
-    selectCategoria.addEventListener("change", aplicarFiltros);
-    selectEmocao.addEventListener("change", aplicarFiltros);
+// Fade nos cards
+function ativarScrollFade() {
+    const itens = document.querySelectorAll(".timeline-item");
+    const observer = new IntersectionObserver(
+        entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) e.target.classList.add("visible");
+            });
+        },
+        { threshold: 0.2 }
+    );
+    itens.forEach(item => observer.observe(item));
 }
 
-function aplicarFiltros() {
-    const ano = document.getElementById("filter-ano").value;
-    const categoria = document.getElementById("filter-categoria").value;
-    const emocao = document.getElementById("filter-emocao").value;
-
-    let filtrados = [...todosEventos];
-
-    if (ano) {
-        filtrados = filtrados.filter(e =>
-            new Date(e.data).getFullYear().toString() === ano
-        );
-    }
-
-    if (categoria) {
-        filtrados = filtrados.filter(e => e.categoria === categoria);
-    }
-
-    if (emocao) {
-        filtrados = filtrados.filter(e => e.emocao === emocao);
-    }
-
-    renderizarTimeline(filtrados);
-}
-
-/* ============================================================
-   6. SCROLL REVEAL
-============================================================ */
-function iniciarScrollReveal() {
-    const items = document.querySelectorAll(".timeline-item");
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) e.target.classList.add("visible");
-        });
-    }, { threshold: 0.2 });
-
-    items.forEach(i => observer.observe(i));
-}
-
-/* ============================================================
-   7. PROGRESSO DA LINHA CENTRAL
-============================================================ */
-const progressBar = document.querySelector(".timeline-progress");
-
-window.addEventListener("scroll", () => {
-    const maxHeight = document.body.scrollHeight - window.innerHeight;
-    const progress = (window.scrollY / maxHeight) * 100;
-    progressBar.style.height = `${progress}%`;
-});
-
-/* ============================================================
-   8. MODAL DE FOTO (Fase 3)
-============================================================ */
-function inicializarModal() {
-    const imgs = document.querySelectorAll(".timeline-img");
-    const modal = document.getElementById("modal-backdrop");
+// Modal da imagem
+function ativarModal() {
+    const modal = document.getElementById("modal");
     const modalImg = document.getElementById("modal-img");
     const modalCaption = document.getElementById("modal-caption");
-    const modalClose = document.getElementById("modal-close");
+    const close = document.querySelector(".modal-close");
 
-    function abrirModal(src, caption) {
-        modalImg.src = src;
-        modalCaption.textContent = caption || "";
-        modal.classList.add("visible");
-    }
-
-    function fecharModal() {
-        modal.classList.remove("visible");
-        modalImg.src = "";
-        modalCaption.textContent = "";
-    }
-
-    imgs.forEach(img => {
+    document.querySelectorAll(".timeline-img").forEach(img => {
         img.addEventListener("click", () => {
-            const src = img.getAttribute("src");
-            const caption = img.getAttribute("data-caption") || img.alt;
-            abrirModal(src, caption);
+            modal.classList.add("visible");
+            modalImg.src = img.src;
+            modalCaption.textContent = img.dataset.caption;
         });
     });
 
-    modalClose.addEventListener("click", fecharModal);
-
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) fecharModal();
-    });
-
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") fecharModal();
+    close.addEventListener("click", () => modal.classList.remove("visible"));
+    modal.addEventListener("click", e => {
+        if (e.target === modal) modal.classList.remove("visible");
     });
 }
 
-/* ============================================================
-   9. CARTA SECRETA (Fase 5)
-============================================================ */
-const secretBtn = document.getElementById("secret-btn");
-const secretCard = document.getElementById("secret-card");
+// Ver mais / Ver menos
+function ativarVerMais() {
+    document.querySelectorAll(".ver-mais-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const p = btn.previousElementSibling;
+            const FULL = p.dataset.full;
+            const LIMITE = 160;
 
-secretBtn.addEventListener("click", () => {
-    secretCard.classList.toggle("visible");
+            if (btn.dataset.expandido === "true") {
+                p.textContent = FULL.slice(0, LIMITE) + "...";
+                btn.textContent = "ver mais";
+                btn.dataset.expandido = "false";
+            } else {
+                p.textContent = FULL;
+                btn.textContent = "ver menos";
+                btn.dataset.expandido = "true";
+            }
+        });
+    });
+}
+
+// Botão carregar mais
+function initLoadMore() {
+    const btn = document.getElementById("load-more");
+    btn.addEventListener("click", () => {
+        paginaAtual++;
+        renderTimeline();
+    });
+}
+
+function controlarBotaoCarregarMais() {
+    const btn = document.getElementById("load-more");
+    const totalPaginas = Math.ceil(todosEventos.length / POR_PAGINA);
+
+    if (paginaAtual < totalPaginas) btn.classList.remove("hidden");
+    else btn.classList.add("hidden");
+}
+
+// Corações flutuando
+function animarHearts() {
+    const container = document.getElementById("hearts-container");
+
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.textContent = "❤";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (6 + Math.random() * 4) + "s";
+
+        container.appendChild(heart);
+        setTimeout(() => heart.remove(), 10000);
+    }, 500);
+}
+
+// Carta secreta
+document.getElementById("secret-btn").addEventListener("click", () => {
+    document.getElementById("secret-card").classList.toggle("visible");
 });
+
+
+// ===============================
+// PLAYER DE MÚSICA
+// ===============================
+const music = document.getElementById("bg-music");
+const musicBtn = document.getElementById("music-btn");
+const musicIcon = document.getElementById("music-icon");
+const fallbackIcon = document.getElementById("fallback-music-icon");
+
+// Volume agradável
+music.volume = 0.45;
+
+// Tenta autoplay ao carregar
+window.addEventListener("load", () => {
+    music.play()
+        .then(() => {
+            // Se tocar, mantém ícone "on"
+            if (musicIcon) musicIcon.src = "./assets/icons/music-on.png";
+        })
+        .catch(() => {
+            // Se bloquear autoplay, mostra ícone de "off"
+            if (musicIcon) musicIcon.src = "./assets/icons/music-off.png";
+        });
+});
+
+// Alternar play/pause
+musicBtn.addEventListener("click", () => {
+    if (music.paused) {
+        music.play();
+        if (musicIcon) musicIcon.src = "./assets/icons/music-on.png";
+        fallbackIcon.textContent = "🎵";
+    } else {
+        music.pause();
+        if (musicIcon) musicIcon.src = "./assets/icons/music-off.png";
+        fallbackIcon.textContent = "⏸";
+    }
+});
+
+
+
+carregarEventos();

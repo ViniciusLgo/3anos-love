@@ -2,228 +2,71 @@
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
-    <title>Jogo dos 3 Anos 💘</title>
+    <title>Joguinhos do Amor 💘</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Poppins -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
-        rel="stylesheet"
-    />
-
-    <style>
-        body {
-            font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont,
-                'Segoe UI', sans-serif;
-        }
-
-        /* animação de entrada suave */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(12px);
-            filter: blur(4px);
-            transition: all 0.45s ease;
-        }
-        .fade-up.show {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0);
-        }
-
-        /* cursor nos cards */
-        .card-hover {
-            transition: transform 150ms ease, box-shadow 150ms ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        /* área de jogo 1 – caça corações */
-        #hearts-area {
-            position: relative;
-            overflow: hidden;
-        }
-        .heart {
-            position: absolute;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        /* cartas do jogo da memória */
-        .memory-card {
-            cursor: pointer;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-        }
-        .memory-card.flipped {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.45);
-        }
-        .memory-card.matched {
-            cursor: default;
-            opacity: 0.7;
-            box-shadow: 0 0 0 transparent;
-        }
-    </style>
+    <link rel="stylesheet" href="./style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100">
 
-    <!-- fundo suave -->
-    <div class="pointer-events-none fixed inset-0 opacity-40">
-        <div class="absolute -top-32 -right-10 w-72 h-72 bg-pink-500/40 blur-3xl rounded-full"></div>
-        <div class="absolute bottom-0 left-10 w-80 h-80 bg-purple-500/40 blur-3xl rounded-full"></div>
-    </div>
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100">
 
-    <main class="relative z-10 max-w-5xl mx-auto px-4 py-10 md:py-12">
-        <!-- topo -->
-        <header class="mb-8 text-center">
-            <p class="text-xs text-pink-300 uppercase tracking-[0.2em] mb-2 fade-up">
-                Projeto 2 · Jogo dos 3 Anos
-            </p>
-            <h1 class="text-3xl md:text-4xl font-bold mb-2 fade-up">
-                Escolha um jogo e se diverte comigo 🎮💖
-            </h1>
-            <p class="text-sm md:text-base text-slate-300 max-w-2xl mx-auto fade-up">
-                Tem caça corações, quiz e jogo da memória. Cada um com um pedacinho da nossa história.
-            </p>
+    <!-- 🎵 Música -->
+    <audio id="bgm" src="./audio/musica.mp3" autoplay muted loop></audio>
 
-            <div class="mt-4 fade-up flex flex-col md:flex-row gap-3 items-center justify-center md:justify-between">
-                <a href="../index.html"
-                   class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-600/70 text-xs text-slate-300 hover:border-pink-400/70">
-                    ← Voltar pro dashboard
-                </a>
+    <script>
+        document.addEventListener("click", () => {
+            const bgm = document.getElementById("bgm");
+            bgm.muted = false;
+            bgm.volume = 0.35;
+        }, { once: true });
+    </script>
 
-                <!-- BOTÃO ADMIN SECRETO -->
-                <a href="./admin/index.html"
-                   class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-pink-500/70 bg-pink-500/10 text-[11px] text-pink-200 hover:bg-pink-500/20">
-                    ⚙ Painel secreto dos jogos
-                </a>
-            </div>
+    <main class="max-w-5xl mx-auto p-6">
+
+        <!-- Cabeçalho -->
+        <header class="text-center fade-up mb-8">
+            <h1 class="title">Joguinhos do Amor 💘</h1>
+            <p class="subtitle">Escolha um dos nossos joguinhos românticos ✨</p>
+
+            <br>
+            <a href="../home/index.html" class="btn-back">← Voltar</a>
         </header>
 
-        <!-- seletor de jogos -->
-        <section class="mb-8 grid gap-4 md:grid-cols-3 fade-up">
-            <button
-                class="card-hover bg-slate-900/80 border border-pink-400/50 rounded-2xl p-4 flex flex-col items-start text-left"
-                data-game-select="heart"
-            >
-                <span class="text-2xl mb-2">💓</span>
-                <h2 class="font-semibold text-sm mb-1">Caça Corações</h2>
-                <p class="text-[11px] text-slate-300">
-                    Clique o máximo de corações em 30 segundos. Depois eu vejo seu desempenho. 😏
-                </p>
+        <!-- Seletor dos jogos -->
+        <section id="game-cards" class="grid gap-4 md:grid-cols-3 fade-up mb-10">
+
+            <button data-load="heart" class="card pink">
+                <span class="emoji">💓</span>
+                <h2>Caça Corações</h2>
+                <p>Clique nos corações fofos.</p>
             </button>
 
-            <button
-                class="card-hover bg-slate-900/80 border border-emerald-400/50 rounded-2xl p-4 flex flex-col items-start text-left"
-                data-game-select="quiz"
-            >
-                <span class="text-2xl mb-2">🧠</span>
-                <h2 class="font-semibold text-sm mb-1">Quiz dos 3 Anos</h2>
-                <p class="text-[11px] text-slate-300">
-                    Perguntas sobre nós, nossos momentos e nossas manias. Acerta tudo se me ama mesmo? 👀
-                </p>
+            <button data-load="quiz" class="card green">
+                <span class="emoji">🧠</span>
+                <h2>Quiz dos 3 Anos</h2>
+                <p>Perguntas sobre nós dois.</p>
             </button>
 
-            <button
-                class="card-hover bg-slate-900/80 border border-sky-400/50 rounded-2xl p-4 flex flex-col items-start text-left"
-                data-game-select="memory"
-            >
-                <span class="text-2xl mb-2">🃏</span>
-                <h2 class="font-semibold text-sm mb-1">Memória do Amor</h2>
-                <p class="text-[11px] text-slate-300">
-                    Encontre os pares de ícones que representam nosso jeitinho. Treina a memória do coração. 💌
-                </p>
+            <button data-load="memory" class="card blue">
+                <span class="emoji">🃏</span>
+                <h2>Memória do Amor</h2>
+                <p>Encontre os pares fofinhos.</p>
             </button>
+
         </section>
 
-        <!-- jogos -->
-        <section class="space-y-8">
-            <!-- JOGO 1: CAÇA CORAÇÕES -->
-            <div id="game-heart" class="fade-up hidden" data-game-section>
-                <div class="flex items-center justify-between mb-3">
-                    <h2 class="font-semibold text-lg flex items-center gap-2">
-                        💓 Caça Corações
-                    </h2>
-                    <button id="start-heart-game"
-                            class="px-3 py-1.5 text-xs rounded-full bg-pink-500 hover:bg-pink-400 text-white">
-                        Começar
-                    </button>
-                </div>
+        <!-- ÁREA DINÂMICA DOS JOGOS -->
+        <section id="game-area" class="hidden fade-up"></section>
 
-                <p class="text-xs text-slate-300 mb-3">
-                    Clique em quantos corações conseguir antes do tempo acabar. Alguns aparecem rapidinho,
-                    outros demoram um pouco. Boa sorte, caçadora de corações. 💘
-                </p>
-
-                <div class="flex gap-4 text-xs mb-3">
-                    <span id="heart-score" class="text-pink-300">Pontos: 0</span>
-                    <span id="heart-timer" class="text-slate-300">Tempo: 30s</span>
-                </div>
-
-                <div id="hearts-area"
-                     class="relative bg-slate-900/70 border border-slate-700/70 rounded-2xl h-72 md:h-80 overflow-hidden">
-                    <!-- corações aparecem aqui via JS -->
-                </div>
-
-                <p id="heart-result" class="mt-3 text-xs text-slate-200"></p>
-            </div>
-
-            <!-- JOGO 2: QUIZ -->
-            <div id="game-quiz" class="fade-up hidden" data-game-section>
-                <div class="flex items-center justify-between mb-3">
-                    <h2 class="font-semibold text-lg flex items-center gap-2">
-                        🧠 Quiz dos 3 Anos
-                    </h2>
-                    <button id="restart-quiz"
-                            class="px-3 py-1.5 text-xs rounded-full bg-emerald-500 hover:bg-emerald-400 text-white">
-                        Recomeçar
-                    </button>
-                </div>
-
-                <p class="text-xs text-slate-300 mb-3">
-                    Responde como seu coração mandar. No final eu te digo se você passou na prova de “Profissional em Nós Dois”. 💚
-                </p>
-
-                <div id="quiz-area"
-                     class="bg-slate-900/70 border border-slate-700/70 rounded-2xl p-4 space-y-3">
-                    <!-- perguntas via JS -->
-                </div>
-            </div>
-
-            <!-- JOGO 3: MEMÓRIA -->
-            <div id="game-memory" class="fade-up hidden" data-game-section>
-                <div class="flex items-center justify-between mb-3">
-                    <h2 class="font-semibold text-lg flex items-center gap-2">
-                        🃏 Memória do Amor
-                    </h2>
-                    <button id="restart-memory"
-                            class="px-3 py-1.5 text-xs rounded-full bg-sky-500 hover:bg-sky-400 text-white">
-                        Embaralhar de novo
-                    </button>
-                </div>
-
-                <p class="text-xs text-slate-300 mb-3">
-                    Vira as cartas e encontra os pares. Cada ícone lembra alguma coisa nossa: viagem, música, comida, etc. 💫
-                </p>
-
-                <div id="memory-grid"
-                     class="grid grid-cols-4 gap-2 md:gap-3 bg-slate-900/70 border border-slate-700/70 rounded-2xl p-4">
-                    <!-- cartas via JS -->
-                </div>
-
-                <p id="memory-status" class="mt-3 text-xs text-slate-200"></p>
-            </div>
-        </section>
-
-        <footer class="mt-10 text-center text-[11px] text-slate-400">
-            Pequeno arcade romântico feito em HTML, JS e muito amor. 💜
-        </footer>
     </main>
 
+    <!-- Scripts -->
+    <script src="./modules/heart.js"></script>
+    <script src="./modules/quiz.js"></script>
+    <script src="./modules/memory.js"></script>
     <script src="./game.js"></script>
+
 </body>
 </html>

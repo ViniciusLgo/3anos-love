@@ -1,54 +1,61 @@
 /* ============================================================
-   CORAÇÕES FLUTUANDO (GERAL DO SITE)
+   CORAÇÕES FLUTUANDO
 ============================================================ */
 function spawnHearts() {
-    const container = document.getElementById("hearts-container");
+  const container = document.getElementById("hearts-container");
 
-    setInterval(() => {
-        const h = document.createElement("div");
-        h.classList.add("heart");
-        h.innerHTML = "💗";
+  setInterval(() => {
+    const h = document.createElement("div");
+    h.classList.add("heart");
+    h.innerHTML = "💗";
 
-        h.style.left = Math.random() * 100 + "vw";
-        h.style.fontSize = (Math.random() * 12 + 12) + "px";
-        h.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.fontSize = Math.random() * 12 + 12 + "px";
+    h.style.animationDuration = Math.random() * 3 + 3 + "s";
 
-        container.appendChild(h);
+    container.appendChild(h);
 
-        setTimeout(() => h.remove(), 7000);
-    }, 450);
+    setTimeout(() => h.remove(), 7000);
+  }, 450);
 }
-
 spawnHearts();
 
 /* ============================================================
-   MÚSICA GLOBAL
+   MÚSICA GLOBAL — SOMENTE musica2 EM LOOP
 ============================================================ */
-function toggleMusic() {
-    const audio = document.getElementById("bg-music");
-    audio.muted = !audio.muted;
-}
+const playlistEnigma = new PlaylistManager({
+  songs: ["../assets/audio/musica2.mp3"],
+  autoplay: true,
+  volume: 0.45
+});
 
+playlistEnigma.init("bg-music");
+
+function toggleMusic() {
+  playlistEnigma.toggle();
+}
 
 /* ============================================================
-   DESAFIO FINAL — Revelar Imagem aos Poucos
+   SPA — CARREGAR TELAS SEM RECARREGAR A PÁGINA
 ============================================================ */
-const revealImg = document.getElementById("reveal-img");
-const finalBtn = document.getElementById("final-btn");
+async function loadView(viewName) {
+  const app = document.getElementById("app");
 
-if (revealImg) {
-    let blurLevel = 35; // começa borrado
+  // Efeito de fade
+  app.classList.remove("fade-in");
 
-    revealImg.onclick = () => {
-        blurLevel -= 7; // cada clique revela mais
+  // Carrega HTML no container
+  const html = await fetch(`views/${viewName}.html`).then(r => r.text());
+  app.innerHTML = html;
 
-        if (blurLevel < 0) blurLevel = 0;
+  setTimeout(() => app.classList.add("fade-in"), 20);
 
-        revealImg.style.filter = `blur(${blurLevel}px)`;
-
-        // quando chegar a zero → libera o botão final
-        if (blurLevel === 0) {
-            finalBtn.style.display = "inline-block";
-        }
-    };
+  // Scroll para o topo quando mudar de página
+  window.scrollTo(0, 0);
 }
+
+/* Carrega tela inicial ao abrir */
+document.addEventListener("DOMContentLoaded", () => {
+    loadView("inicio");
+});
+

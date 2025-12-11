@@ -12,16 +12,10 @@
 
 <body class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100">
 
-    <!-- 🎵 Música -->
-    <audio id="bgm" src="./audio/musica.mp3" autoplay muted loop></audio>
 
-    <script>
-        document.addEventListener("click", () => {
-            const bgm = document.getElementById("bgm");
-            bgm.muted = false;
-            bgm.volume = 0.35;
-        }, { once: true });
-    </script>
+    
+    <!-- 🎵 Música -->
+    <audio id="bgm"></audio>
 
     <main class="max-w-5xl mx-auto p-6">
 
@@ -31,7 +25,7 @@
             <p class="subtitle">Escolha um dos nossos joguinhos românticos ✨</p>
 
             <br>
-            <a href="../home/index.html" class="btn-back">← Voltar</a>
+            <a href="../index.html" class="btn-back">← Voltar</a>
         </header>
 
         <!-- Seletor dos jogos -->
@@ -63,6 +57,7 @@
     </main>
 
     <!-- Scripts -->
+    <script src="../assets/audio-manager.js"></script>
     <script src="./modules/heart.js"></script>
     <script src="./modules/quiz.js"></script>
     <script src="./modules/memory.js"></script>

@@ -1,0 +1,32 @@
+<header class="header fade-in">
+    <h1 class="typewriter">Desafio Final — Revele o nosso momento</h1>
+</header>
+
+<div class="center-box fade-in">
+
+    <p>Clique várias vezes para revelar a foto…</p>
+
+    <div class="reveal-box">
+        <img src="foto1.jpg" id="reveal-img" class="blur-image" alt="Nossa foto">
+    </div>
+
+    <a id="final-btn" onclick="loadView('inicio')" class="next-btn" style="display:none; margin-top:25px;">
+        EU TE AMO MAIS QUE TUDO MINHA VIDA OBRIGADO POR TUDO ATÉ AQUI 💌
+    </a>
+
+</div>
+
+<script>
+let blur = 35;
+
+document.getElementById("reveal-img").onclick = () => {
+    blur -= 7;
+    if (blur < 0) blur = 0;
+
+    document.getElementById("reveal-img").style.filter = `blur(${blur}px)`;
+
+    if (blur === 0) {
+        document.getElementById("final-btn").style.display = "inline-block";
+    }
+};
+</script>

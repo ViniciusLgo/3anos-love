@@ -1,29 +1,31 @@
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="utf-8" />
-    <title>Enigma do Amor 💘</title>
+    <title>Enigma do Amor 💘 — SPA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="stylesheet" href="css/style.css">
-    <audio id="bg-music" src="audio/musica.mp3" autoplay loop></audio>
 </head>
 
 <body>
 
-<div id="hearts-container"></div>
-<div class="music-toggle" onclick="toggleMusic()">🎵</div>
+    <!-- Corações do fundo -->
+    <div id="hearts-container"></div>
 
-<header class="header">
-    <h1 class="typewriter">💘 Enigma do Amor — 3 Anos</h1>
-    <p class="sub">Um presente para te lembrar do quanto eu amo você.</p>
-</header>
+    <!-- Botão de música -->
+    <div class="music-toggle" onclick="toggleMusic()">🎵</div>
 
-<div class="center-box fade-in">
-    <p>Pronta para descobrir nossos pequenos segredos do amor?</p>
-    <a href="desafio1.html" class="start-btn">Começar 💗</a>
-</div>
+    <!-- CONTAINER PRINCIPAL DAS VIEWS -->
+    <main id="app" class="fade-in"></main>
 
-<script src="script.js"></script>
+    <!-- Áudio global -->
+    <audio id="bg-music"></audio>
+    
+<script src="../assets/audio-manager.js"></script>
+<script src="script.js" defer></script>
+
 </body>
+
 </html>

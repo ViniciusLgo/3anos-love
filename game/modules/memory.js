@@ -44,7 +44,7 @@ function loadMemoryGame() {
                     ← Voltar aos Jogos
                 </button>
 
-                <a href="../home/index.html"
+                <a href="../index.html"
                     class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-full border border-slate-600">
                     🏠 Dashboard
                 </a>

@@ -190,36 +190,68 @@ const music = document.getElementById("bg-music");
 const musicBtn = document.getElementById("music-btn");
 const musicIcon = document.getElementById("music-icon");
 const fallbackIcon = document.getElementById("fallback-music-icon");
+const playlist = [
+    "../assets/audio/musica6.mp3",
+    "../assets/audio/musica5.mp3",
+    "../assets/audio/musica4.mp3",
+];
+let currentTrackIndex = 0;
 
 // Volume agradável
 music.volume = 0.45;
+music.loop = false;
+
+function setPlaybackUI(isPlaying) {
+    if (musicIcon) musicIcon.src = isPlaying
+        ? "./assets/icons/music-on.png"
+        : "./assets/icons/music-off.png";
+    if (fallbackIcon) fallbackIcon.textContent = isPlaying ? "🎵" : "⏸";
+}
+
+function loadTrack(index) {
+    if (!playlist.length) return;
+    currentTrackIndex = index % playlist.length;
+    music.src = playlist[currentTrackIndex];
+    music.load();
+}
+
+function playCurrentTrack() {
+    if (!playlist.length) return Promise.resolve();
+
+    return music.play()
+        .then(() => setPlaybackUI(true))
+        .catch(() => setPlaybackUI(false));
+}
 
 // Tenta autoplay ao carregar
 window.addEventListener("load", () => {
-    music.play()
-        .then(() => {
-            // Se tocar, mantém ícone "on"
-            if (musicIcon) musicIcon.src = "./assets/icons/music-on.png";
-        })
-        .catch(() => {
-            // Se bloquear autoplay, mostra ícone de "off"
-            if (musicIcon) musicIcon.src = "./assets/icons/music-off.png";
-        });
+    loadTrack(0);
+    playCurrentTrack();
 });
 
 // Alternar play/pause
 musicBtn.addEventListener("click", () => {
     if (music.paused) {
-        music.play();
-        if (musicIcon) musicIcon.src = "./assets/icons/music-on.png";
-        fallbackIcon.textContent = "🎵";
+        playCurrentTrack();
     } else {
         music.pause();
-        if (musicIcon) musicIcon.src = "./assets/icons/music-off.png";
-        fallbackIcon.textContent = "⏸";
+        setPlaybackUI(false);
     }
 });
 
+music.addEventListener("ended", () => {
+    if (!playlist.length) return;
+    const nextIndex = (currentTrackIndex + 1) % playlist.length;
+    loadTrack(nextIndex);
+    playCurrentTrack();
+});
+
+music.addEventListener("error", () => {
+    if (!playlist.length) return;
+    const nextIndex = (currentTrackIndex + 1) % playlist.length;
+    loadTrack(nextIndex);
+    playCurrentTrack();
+});
 
 
 carregarEventos();

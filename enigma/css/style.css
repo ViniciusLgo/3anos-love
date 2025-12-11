@@ -1,6 +1,6 @@
 /* ======================================================
-   TEMA DARK LOVE ORIGINAL — 3 ANOS
-   AZUL ESCURO + ROSA NEON + MICROANIMAÇÕES
+   TEMA DARK LOVE ORIGINAL — 3 ANOS (VERSÃO 2.0)
+   Azul Noite + Rosa Neon + Sombras Suaves
 ====================================================== */
 
 body {
@@ -10,23 +10,24 @@ body {
     color: #e2e8f0;
     font-family: 'Poppins', sans-serif;
     overflow-x: hidden;
+    min-height: 100vh;
 }
 
 /* ======================================================
-   CORAÇÕES FLUTUANDO
+   CORAÇÕES FLUTUANDO (CORRIGIDO PARA NÃO BLOQUEAR CLIQUES)
 ====================================================== */
 #hearts-container {
     position: fixed;
     inset: 0;
     z-index: 0;
-    pointer-events: none;
+    pointer-events: none !important;
 }
 
 .heart {
     position: absolute;
     color: #ff80c8;
     font-size: 14px;
-    opacity: 0.5;
+    opacity: 0.45;
     animation: floatUp linear forwards;
 }
 
@@ -68,86 +69,99 @@ body {
 .center-box {
     max-width: 700px;
     margin: 40px auto;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.12);
-    padding: 25px;
-    border-radius: 18px;
-    backdrop-filter: blur(10px);
+    padding: 28px;
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
     text-align: center;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 0 25px rgba(255,105,180,0.15);
 }
 
-/* Fade suave das páginas */
+/* Fade suave */
 .fade-in {
     animation: fadeIn .8s ease forwards;
 }
 
 @keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(10px); }
+    0% { opacity: 0; transform: translateY(12px); }
     100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Glow neon rosa da página de erro */
+/* Glow neon da página de erro */
 .fade-in-glow {
     animation: errorGlow 1.4s ease;
 }
 
 @keyframes errorGlow {
     0% { box-shadow: 0 0 0px #f472b6; }
-    100% { box-shadow: 0 0 20px #f472b6; }
+    100% { box-shadow: 0 0 24px #f472b6; }
 }
 
 /* ======================================================
-   BOTÕES
+   BOTÕES PRINCIPAIS
 ====================================================== */
-
 .start-btn, .next-btn {
     display: inline-block;
-    margin-top: 20px;
-    padding: 12px 26px;
+    margin-top: 22px;
+    padding: 14px 30px;
     background: linear-gradient(135deg, #f472b6, #a855f7);
     border-radius: 999px;
     color: white;
-    font-size: 16px;
+    font-size: 17px;
     text-decoration: none;
     transition: .25s ease;
+    box-shadow: 0 0 14px rgba(255,105,180,0.25);
+    cursor: pointer;
 }
 
 .start-btn:hover, .next-btn:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    box-shadow: 0 0 18px rgba(255,105,180,0.4);
 }
 
 .next-btn.show { display: inline-block; }
 
-/* Botões do jogo */
-.card-option,
-.choice-btn {
+/* ======================================================
+   BOTÕES DE RESPOSTA DOS DESAFIOS
+====================================================== */
+.card-option, .choice-btn {
     display: block;
-    padding: 16px;
+    padding: 18px;
     background: rgba(255,255,255,0.08);
     border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 14px;
-    margin: 12px auto;
-    width: 90%;
+    border-radius: 16px;
+    margin: 14px auto;
+    width: 92%;
     cursor: pointer;
     transition: .25s;
     color: #e2e8f0;
-    font-size: 16px;
+    font-size: 17px;
     text-decoration: none;
+    position: relative;
+    z-index: 20;
 }
 
-.card-option:hover,
-.choice-btn:hover {
+.card-option:hover, .choice-btn:hover {
     background: rgba(255,255,255,0.15);
-    transform: scale(1.03);
+    transform: scale(1.04);
+    box-shadow: 0 0 12px rgba(255,105,180,0.2);
+}
+
+/* Para respostas corretas com efeito especial */
+.card-option.correct:hover {
+    background: rgba(167, 255, 200, 0.15);
+    border-color: rgba(167, 255, 200, 0.4);
 }
 
 /* ======================================================
    GRADE DE 10 CORAÇÕES (DESAFIO 3)
 ====================================================== */
-
 .pulse-grid-10 {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 por linha */
+    grid-template-columns: repeat(5, 1fr);
     gap: 22px;
     margin-top: 25px;
 }
@@ -158,45 +172,34 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
-
 
 .heart-fast, .heart-normal {
     font-size: 46px;
-    display: inline-block;
-}
-
-.heart-fast {
-    animation: pulseFast .6s infinite;
-}
-
-.heart-normal {
-    animation: pulseNormal 1.2s infinite;
 }
 
 @keyframes pulseFast {
-    0% { transform: scale(1); opacity: .9; }
-    50% { transform: scale(1.4); opacity: 1; }
-    100% { transform: scale(1); opacity: .9; }
-}
-
-@keyframes pulseNormal {
     0% { transform: scale(1); opacity: .85; }
-    50% { transform: scale(1.25); opacity: 1; }
+    50% { transform: scale(1.45); opacity: 1; }
     100% { transform: scale(1); opacity: .85; }
 }
 
-/* ======================================================
-   DATA ESPECIAL (DESAFIO 4)
-====================================================== */
+@keyframes pulseNormal {
+    0% { transform: scale(1); opacity: .8; }
+    50% { transform: scale(1.25); opacity: 1; }
+    100% { transform: scale(1); opacity: .8; }
+}
+
+.heart-fast { animation: pulseFast .6s infinite; }
+.heart-normal { animation: pulseNormal 1.2s infinite; }
 
 /* ======================================================
-   GRADE DE 16 DATAS (DESAFIO 4)
+   DESAFIO 4 — GRID DE DATAS
 ====================================================== */
-
 .date-options-16 {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 por linha */
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     margin-top: 25px;
 }
@@ -211,31 +214,17 @@ body {
     font-size: 15px;
     text-align: center;
     transition: .25s;
+    cursor: pointer;
 }
 
 .date-btn:hover {
     background: rgba(255,255,255,0.20);
-    transform: scale(1.05);
-}
-
-
-.date-box {
-    font-size: 24px;
-    margin-bottom: 25px;
-}
-
-.digit {
-    padding: 6px 14px;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(230,200,255,0.2);
-    font-weight: 600;
+    transform: scale(1.06);
 }
 
 /* ======================================================
-   MENSAGEM OCULTA (DESAFIO 5)
+   DESAFIO 5 — MENSAGEM OCULTA
 ====================================================== */
-
 .hidden-msg {
     filter: blur(6px);
     transition: 0.4s;
@@ -244,20 +233,13 @@ body {
     cursor: pointer;
 }
 
-.hidden-msg:hover,
-.hidden-msg:active {
+.hidden-msg:hover, .hidden-msg:active {
     filter: blur(0);
 }
 
 /* ======================================================
-   CARTA FINAL
-====================================================== */
-
-
-/* ================================
    DESAFIO FINAL — REVELAR IMAGEM
-================================ */
-
+====================================================== */
 .reveal-box {
     width: 100%;
     display: flex;
@@ -285,7 +267,6 @@ body {
 /* ======================================================
    BOTÃO DE MÚSICA
 ====================================================== */
-
 .music-toggle {
     position: fixed;
     top: 20px;
@@ -296,10 +277,23 @@ body {
     cursor: pointer;
     z-index: 999;
     font-size: 22px;
-    transition: .3s;
+    transition: .3s ease;
+    box-shadow: 0 0 12px rgba(255,255,255,0.1);
 }
 
 .music-toggle:hover {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.22);
+    transform: scale(1.12);
 }
 
+.step {
+    display: none;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.step.active {
+    display: block;
+    pointer-events: auto;
+    opacity: 1;
+}

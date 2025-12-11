@@ -2,32 +2,23 @@
     <h1 class="typewriter">Desafio 2 — Complete a frase</h1>
 </header>
 
-<div id="s1" class="center-box step fade-in">
-
-    <p class="frase">
-        "Você é o meu <b>______</b>"
-    </p>
+<div id="s1" class="center-box step active fade-in">
+    <p class="frase">"Você é o meu <b>______</b>"</p>
 
     <div class="card-option" onclick="go('s2')">meu lar</div>
     <div class="card-option wrong" onclick="loadView('erro')">minha força</div>
     <div class="card-option wrong" onclick="loadView('erro')">minha alegria</div>
-
 </div>
 
-<div id="s2" class="center-box step fade-in" style="display:none;">
-
-    <p class="frase">
-        "Você é o meu <b>lar</b> porque <b>______</b>"
-    </p>
+<div id="s2" class="center-box step fade-in">
+    <p class="frase">"Você é o meu <b>lar</b> porque <b>______</b>"</p>
 
     <div class="card-option" onclick="go('s3')">me acalma</div>
     <div class="card-option wrong" onclick="loadView('erro')">me inspira</div>
     <div class="card-option wrong" onclick="loadView('erro')">me fortalece</div>
-
 </div>
 
-<div id="s3" class="center-box step fade-in" style="display:none;">
-
+<div id="s3" class="center-box step fade-in">
     <p class="frase">
         "Você é o meu <b>lar</b> porque <b>me acalma</b> e sempre <b>______</b>"
     </p>
@@ -35,12 +26,5 @@
     <div class="card-option correct" onclick="loadView('desafio3')">me escolhe</div>
     <div class="card-option wrong" onclick="loadView('erro')">me entende</div>
     <div class="card-option wrong" onclick="loadView('erro')">me ilumina</div>
-
 </div>
 
-<script>
-function go(step) {
-    document.querySelectorAll(".step").forEach(s => s.style.display = "none");
-    document.getElementById(step).style.display = "block";
-}
-</script>

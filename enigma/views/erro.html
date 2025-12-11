@@ -1,37 +1,32 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-    <meta charset="utf-8" />
-    <title>Ops, amor… 💔</title>
+<div class="center-box fade-in" style="text-align:center; margin-top:120px;">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <div style="font-size:60px; animation: pulseHeart 1.4s infinite;">
+        💗❌💗
+    </div>
 
-    <link rel="stylesheet" href="css/style.css">
+    <h2 style="margin-top:20px; font-size:28px;">
+        Ops, meu amor…
+    </h2>
 
-    <audio id="bg-music" src="audio/musica.mp3" autoplay loop></audio>
-</head>
-
-<body class="fade-in-glow">
-
-<div id="hearts-container"></div>
-<div class="music-toggle" onclick="toggleMusic()">🎵</div>
-
-<div class="center-box fade-in" style="margin-top:140px;text-align:center;">
-
-    <h1>💔 Ops, amor…</h1>
-
-    <p style="opacity:0.85;font-size:18px;margin-bottom:30px;">
-        Essa não é a resposta certa.<br><br>
-        💗 Mas eu sei que você consegue.<br>
-        Volte e tente novamente.
+    <p style="opacity:0.9; font-size:18px; line-height:28px; margin-top:10px;">
+        Você quase acertou!  
+        Mas essa pista ainda está fazendo charme pra você…  
+        <br><br>
+        Vamos tentar de novo?  
+        Eu sei que você vai conseguir, porque nada te para, nem esses segredos! 💞
     </p>
 
-    <a href="javascript:history.back()" class="next-btn show">
-        ⬅ Voltar ao desafio
-    </a>
-
+    <div style="margin-top:35px;">
+        <a onclick="goBack()" class="next-btn show" style="font-size:18px;">
+            ⬅ Voltar e tentar novamente
+        </a>
+    </div>
 </div>
 
-<script src="script.js"></script>
-</body>
-</html>
+<style>
+@keyframes pulseHeart {
+    0% { transform: scale(1); opacity: .9; }
+    50% { transform: scale(1.25); opacity: 1; }
+    100% { transform: scale(1); opacity: .9; }
+}
+</style>

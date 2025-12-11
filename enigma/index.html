@@ -3,29 +3,30 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Enigma do Amor 💘 — SPA</title>
+    <title>Enigma do Amor — 3 Anos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <!-- CSS do enigma -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-
-    <!-- Corações do fundo -->
+    <!-- Corações de fundo -->
     <div id="hearts-container"></div>
 
     <!-- Botão de música -->
-    <div class="music-toggle" onclick="toggleMusic()">🎵</div>
+    <button id="musicToggle" class="music-toggle" type="button" aria-label="Tocar música">
+        🎵
+    </button>
 
-    <!-- CONTAINER PRINCIPAL DAS VIEWS -->
+
+    <!-- Aqui dentro as views serão carregadas -->
     <main id="app" class="fade-in"></main>
 
-    <!-- Áudio global -->
-    <audio id="bg-music"></audio>
-    
-<script src="../assets/audio-manager.js"></script>
-<script src="script.js" defer></script>
-
+    <!-- Player de música -->
+    <script src="assets/js/playlist-manager.js"></script>
+    <!-- Lógica do enigma -->
+    <script src="script.js"></script>
 </body>
 
 </html>
